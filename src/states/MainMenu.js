@@ -25,17 +25,16 @@ export default class extends Phaser.State {
     });
     this.titleText.anchor.set(0.5);
 
-    this.game.input.onDown.add(this.startGame, this);
+    this.game.input.onDown.addOnce(this.startGame, this);
+    this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(this.startGame, this);
   }
 
   update() {
   }
 
   startGame() {
-    if(!this.toBoard){
       this.toBoard = this.game.add.tween(this.camera).to( { y: 0 }, 400, Phaser.Easing.Quadratic.InOut, true, 200);
       this.toBoard.onComplete.add(function() {this.state.start('Game', false, false)}, this );
-    }
   }
 
   render () {

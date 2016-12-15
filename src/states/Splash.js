@@ -17,8 +17,9 @@ export default class extends Phaser.State {
     console.log("Splash create");
     this.logo.alpha = 0;
     var fadeTween = this.game.add.tween(this.logo).to( { alpha: 1 }, 4000, Phaser.Easing.Linear.None, true, 1000);
-    fadeTween.onComplete.add(function() {this.state.start('MainMenu')}, this );
+    fadeTween.onComplete.addOnce(function() {this.state.start('MainMenu')}, this );
 
-    this.game.input.onDown.add(function() {this.state.start('MainMenu')}, this);
+    this.game.input.onDown.addOnce(function() {this.state.start('MainMenu')}, this);
+    this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(function() {this.state.start('MainMenu')}, this);
   }
 }
