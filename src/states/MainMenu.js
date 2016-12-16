@@ -34,12 +34,12 @@ export default class extends Phaser.State {
 
   startGame() {
       this.toBoard = this.game.add.tween(this.camera).to( { y: 0 }, 400, Phaser.Easing.Quadratic.InOut, true, 200);
-      this.toBoard.onComplete.add(function() {this.state.start('Game', false, false)}, this );
+      this.toBoard.onComplete.addOnce(function() {this.state.start('Game', false, false)}, this );
   }
 
   render () {
     if (__DEV__) {
-      game.debug.cameraInfo(game.camera, 32, 32);
+      //game.debug.cameraInfo(game.camera, 32, 32);
     }
   }
 }

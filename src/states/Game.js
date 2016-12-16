@@ -28,8 +28,8 @@ export default class extends Phaser.State {
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0), new Phaser.Point(0, 50)],
                     [new Phaser.Point(0, -50), new Phaser.Point(50, 0), new Phaser.Point(0, 50)],
-                    [new Phaser.Point(50, 0), new Phaser.Point(-25, -25), new Phaser.Point(50, 0)],
-                    [new Phaser.Point(-50, 0), new Phaser.Point(25, -25), new Phaser.Point(-50, 0)]]
+                    [new Phaser.Point(50, 0), new Phaser.Point(-50, -50), new Phaser.Point(50, 0)],
+                    [new Phaser.Point(-50, 0), new Phaser.Point(50, -50), new Phaser.Point(-50, 0)]]
     this.previewPiece = [new Phaser.Point(0, -50)]
     this.snatris.addLinks(this.previewPiece, true)
   }

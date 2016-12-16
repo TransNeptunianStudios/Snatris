@@ -112592,7 +112592,7 @@
 	    key: 'startGame',
 	    value: function startGame() {
 	      this.toBoard = this.game.add.tween(this.camera).to({ y: 0 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
-	      this.toBoard.onComplete.add(function () {
+	      this.toBoard.onComplete.addOnce(function () {
 	        this.state.start('Game', false, false);
 	      }, this);
 	    }
@@ -112600,7 +112600,7 @@
 	    key: 'render',
 	    value: function render() {
 	      if (true) {
-	        game.debug.cameraInfo(game.camera, 32, 32);
+	        //game.debug.cameraInfo(game.camera, 32, 32);
 	      }
 	    }
 	  }]);
@@ -112659,7 +112659,6 @@
 	    key: 'create',
 	    value: function create() {
 	      console.log("GameOverMenu create");
-	      this.game.input.onDown.addOnce(this.ToMainMenu, this);
 	      this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.ToMainMenu, this);
 	    }
 	  }, {
@@ -112750,7 +112749,7 @@
 	        align: "left"
 	      });
 	
-	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-25, -25), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(25, -25), new _phaser2.default.Point(-50, 0)]];
+	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
 	      this.snatris.addLinks(this.previewPiece, true);
 	    }

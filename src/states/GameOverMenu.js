@@ -8,7 +8,6 @@ export default class extends Phaser.State {
 
   create () {
     console.log("GameOverMenu create");
-    this.game.input.onDown.addOnce(this.ToMainMenu, this);
     this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(this.ToMainMenu, this);
   }
 
