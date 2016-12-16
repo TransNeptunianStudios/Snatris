@@ -11,6 +11,7 @@ export default class extends Phaser.Group {
 
         this.links = [new Phaser.Point(startX, startY)]
         this.nextLinks = []
+        this.score = 0;
     }
 
     addLinks( relativeLinks, preview ) {
@@ -29,10 +30,11 @@ export default class extends Phaser.Group {
     }
 
     snakeify () {
-      if(this.links.length < 2 || !this.alive)
+      if(this.links.length < 2) // Dont run when snatris is a dot
         return;
 
-      if( Math.abs(this.links[0].x - this.links[1].x) < 1 && Math.abs(this.links[0].y - this.links[1].y) < 1)
+
+      if( Phaser.Point.distance(this.links[0], this.links[1], true) < 3) //Remove "dead" links
         this.links.shift();
 
       var speed = 1
@@ -43,7 +45,7 @@ export default class extends Phaser.Group {
       tail.y -= dirTail.y
 
       var head = this.links[this.links.length-1]
-      var dirHead = new Phaser.Point(this.links[this.links.length-2].x- head.x, this.links[this.links.length-2].y - head.y).normalize().multiply(speed, speed)
+      var dirHead = new Phaser.Point(this.links[this.links.length-2].x- head.x, this.links[this.links.length-2].y - head.y).normalize().multiply(speed*1.5, speed*1.5)
       head.x -= dirHead.x
       head.y -= dirHead.y
     }
@@ -59,8 +61,8 @@ export default class extends Phaser.Group {
             var pointOfCollision = new Phaser.Point(0, 0);
 
             if( L1.intersects(L2, true, pointOfCollision)
-                && Phaser.Point.distance(pointOfCollision, this.links[i], true) >= 1
-                && Phaser.Point.distance(pointOfCollision, this.links[i+1], true) >= 1){
+                && Phaser.Point.distance(pointOfCollision, this.links[i], true) >= 2
+                && Phaser.Point.distance(pointOfCollision, this.links[i+1], true) >= 2){
               return true;
             }
         }
@@ -76,9 +78,7 @@ export default class extends Phaser.Group {
       return true;
     }
 
-    update () {
-      this.snakeify()
-
+    reDraw( withPreview ){
       var head = this.links[this.links.length-1]
       var tail = this.links[0]
 
@@ -89,16 +89,26 @@ export default class extends Phaser.Group {
         this.graphics.lineTo(this.links[i].x, this.links[i].y);
       }
 
-      if( this.isColliding() || !this.isInside(0,0, this.game.width, this.game.height)){
+      if( withPreview ){
+        for (var i = 0; i < this.nextLinks.length; i++) {
+          this.graphics.lineStyle(2, 0xFF00FF);
+          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
+        }
+      }
+    }
+
+    update () {
+      if( !this.isColliding() && this.isInside(0,0, this.game.width, this.game.height)){
+        this.snakeify()
+        this.reDraw(true);
+
+        this.score = this.links.length-1;
+      }
+      else{
         this.alive = false;
-        return
+        this.reDraw(false);
       }
 
-      for (var i = 0; i < this.nextLinks.length; i++) {
-        this.graphics.lineStyle(2, 0xFF00FF);
-        this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
-      }
-
-
+      console.log(this.score);
     }
 }

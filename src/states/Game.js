@@ -16,17 +16,25 @@ export default class extends Phaser.State {
     this.confirmButton.onDown.add(this.confirmPlacement, this)
     this.cursors = game.input.keyboard.createCursorKeys()
 
+    this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
+      font: "20px Arial",
+      fill: "#FFFFFF",
+      align: "left"
+    });
+
     this.pieces = [ [new Phaser.Point(0, -50)],
+                    [new Phaser.Point(0, -100)],
                     [new Phaser.Point(0, -50), new Phaser.Point(50, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0), new Phaser.Point(0, 50)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(50, 0), new Phaser.Point(0, 50)]]
+                    [new Phaser.Point(0, -50), new Phaser.Point(50, 0), new Phaser.Point(0, 50)],
+                    [new Phaser.Point(50, 0), new Phaser.Point(-25, -25), new Phaser.Point(50, 0)],
+                    [new Phaser.Point(-50, 0), new Phaser.Point(25, -25), new Phaser.Point(-50, 0)]]
     this.previewPiece = [new Phaser.Point(0, -50)]
-    this.currentAngle = 0
     this.snatris.addLinks(this.previewPiece, true)
   }
   rotatePreview (angle) {
-    var theta = Phaser.Math.degToRad(this.currentAngle-angle);
+    var theta = Phaser.Math.degToRad(angle);
 
     var cs = Math.cos(theta);
     var sn = Math.sin(theta);
@@ -38,16 +46,12 @@ export default class extends Phaser.State {
       this.previewPiece[i].x = px;
       this.previewPiece[i].y = py;
     }
-
-    this.currentAngle = angle%360
   }
 
   confirmPlacement() {
     this.snatris.addLinks(this.previewPiece)
-    this.previewPiece = this.game.rnd.pick(this.pieces);
-    this.oldRotation = this.currentAngle;
-    this.currentAngle = 0
-    this.rotatePreview(this.oldRotation);
+    this.previewPiece = this.game.rnd.pick(this.pieces)
+    this.rotatePreview (this.game.rnd.integer()%360)
     this.snatris.addLinks(this.previewPiece, true)
   }
 
@@ -56,13 +60,12 @@ export default class extends Phaser.State {
         this.state.start('GameOver', false, false)
 
     if (this.cursors.left.isDown)
-      this.rotatePreview(this.currentAngle+3)
+      this.rotatePreview(-4)
     else if (this.cursors.right.isDown)
-      this.rotatePreview(this.currentAngle-3)
+      this.rotatePreview(4)
 
     this.snatris.addLinks(this.previewPiece, true)
 
+    this.titleText.text = "Score: " + this.snatris.score;
   }
-
-
 }
