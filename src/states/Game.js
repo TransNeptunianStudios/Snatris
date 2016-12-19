@@ -12,15 +12,20 @@ export default class extends Phaser.State {
     this.snatris = new Snatris(this.game, startPoint.x, startPoint.y)
     this.game.add.existing(this.snatris)
 
-    this.confirmButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-    this.confirmButton.onDown.add(this.confirmPlacement, this)
+    // keyboard
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.confirmPlacement, this)
     this.cursors = game.input.keyboard.createCursorKeys()
+
+    this.TouchDown = false;
 
     this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
       font: "20px Arial",
       fill: "#FFFFFF",
       align: "left"
     });
+
+    this.confirmSound = game.add.audio('confirm')
+    this.confirmSound.volume = 0.5
 
     this.pieces = [ [new Phaser.Point(0, -50)],
                     [new Phaser.Point(0, -100)],
@@ -48,24 +53,41 @@ export default class extends Phaser.State {
     }
   }
 
+
   confirmPlacement() {
     this.snatris.addLinks(this.previewPiece)
     this.previewPiece = this.game.rnd.pick(this.pieces)
     this.rotatePreview (this.game.rnd.integer()%360)
     this.snatris.addLinks(this.previewPiece, true)
+    this.confirmSound.play()
   }
 
   update (){
-      if(!this.snatris.alive)
-        this.state.start('GameOver', false, false)
+    if(!this.snatris.alive)
+      this.state.start('GameOver', false, false)
 
+    // Cursors
     if (this.cursors.left.isDown)
       this.rotatePreview(-4)
     else if (this.cursors.right.isDown)
       this.rotatePreview(4)
 
-    this.snatris.addLinks(this.previewPiece, true)
+    // TOUCH
+    if(game.input.activePointer.isDown && !this.TouchDown){
+      this.TouchDown = true;
+      console.log("First down")
+    }
+    else if(game.input.activePointer.isDown){
+      var rot = game.input.speed.x + game.input.speed.y;
+      console.log(rot)
+      this.rotatePreview(rot);
+    }
+    else if(this.TouchDown){ // just released
+      this.confirmPlacement();
+      this.TouchDown = false;
+      console.log("Release")
+    }
 
-    this.titleText.text = "Score: " + this.snatris.score;
+    this.snatris.addLinks(this.previewPiece, true)
   }
 }

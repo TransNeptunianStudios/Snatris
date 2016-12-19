@@ -22,10 +22,12 @@ export default class extends Phaser.State {
     // Loading ALL assets
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
 
     this.load.image('background', './assets/images/Background.png');
     this.load.image('TNSlogo', './assets/images/TNS_logo.png');
+
+
+    this.load.audio('confirm', './assets/audio/confirm.wav')
   }
 
   render () {

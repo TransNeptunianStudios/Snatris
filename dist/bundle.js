@@ -112366,10 +112366,11 @@
 	      // Loading ALL assets
 	      this.load.image('loaderBg', './assets/images/loader-bg.png');
 	      this.load.image('loaderBar', './assets/images/loader-bar.png');
-	      this.load.image('mushroom', 'assets/images/mushroom2.png');
 	
 	      this.load.image('background', './assets/images/Background.png');
 	      this.load.image('TNSlogo', './assets/images/TNS_logo.png');
+	
+	      this.load.audio('confirm', './assets/audio/confirm.wav');
 	    }
 	  }, {
 	    key: 'render',
@@ -112739,15 +112740,20 @@
 	      this.snatris = new _snatris2.default(this.game, startPoint.x, startPoint.y);
 	      this.game.add.existing(this.snatris);
 	
-	      this.confirmButton = game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR);
-	      this.confirmButton.onDown.add(this.confirmPlacement, this);
+	      // keyboard
+	      game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.add(this.confirmPlacement, this);
 	      this.cursors = game.input.keyboard.createCursorKeys();
+	
+	      this.TouchDown = false;
 	
 	      this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
 	        font: "20px Arial",
 	        fill: "#FFFFFF",
 	        align: "left"
 	      });
+	
+	      this.confirmSound = game.add.audio('confirm');
+	      this.confirmSound.volume = 0.5;
 	
 	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
@@ -112776,17 +112782,32 @@
 	      this.previewPiece = this.game.rnd.pick(this.pieces);
 	      this.rotatePreview(this.game.rnd.integer() % 360);
 	      this.snatris.addLinks(this.previewPiece, true);
+	      this.confirmSound.play();
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
 	      if (!this.snatris.alive) this.state.start('GameOver', false, false);
 	
+	      // Cursors
 	      if (this.cursors.left.isDown) this.rotatePreview(-4);else if (this.cursors.right.isDown) this.rotatePreview(4);
 	
-	      this.snatris.addLinks(this.previewPiece, true);
+	      // TOUCH
+	      if (game.input.activePointer.isDown && !this.TouchDown) {
+	        this.TouchDown = true;
+	        console.log("First down");
+	      } else if (game.input.activePointer.isDown) {
+	        var rot = game.input.speed.x + game.input.speed.y;
+	        console.log(rot);
+	        this.rotatePreview(rot);
+	      } else if (this.TouchDown) {
+	        // just released
+	        this.confirmPlacement();
+	        this.TouchDown = false;
+	        console.log("Release");
+	      }
 	
-	      this.titleText.text = "Score: " + this.snatris.score;
+	      this.snatris.addLinks(this.previewPiece, true);
 	    }
 	  }]);
 	
@@ -112931,8 +112952,6 @@
 	        this.alive = false;
 	        this.reDraw(false);
 	      }
-	
-	      console.log(this.score);
 	    }
 	  }]);
 	

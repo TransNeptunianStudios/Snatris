@@ -108,7 +108,5 @@ export default class extends Phaser.Group {
         this.alive = false;
         this.reDraw(false);
       }
-
-      console.log(this.score);
     }
 }
