@@ -44,7 +44,7 @@ export default class extends Phaser.State {
     });
     OldScore.anchor.set(0.5);
 
-    if( this.finalScore > best)
+    if( this.finalScore > bestScore)
       localStorage.setItem('SnatrisBest', this.finalScore);
 
     toScoreTween.onComplete.addOnce(()=>{
