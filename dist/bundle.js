@@ -112665,7 +112665,9 @@
 	
 	  _createClass(_class, [{
 	    key: 'init',
-	    value: function init() {}
+	    value: function init(score) {
+	      this.finalScore = score;
+	    }
 	  }, {
 	    key: 'preload',
 	    value: function preload() {}
@@ -112683,7 +112685,7 @@
 	      sorryText.alpha = 0;
 	      sorryText.anchor.set(0.5);
 	
-	      this.firstTween = game.add.tween(sorryText).to({ alpha: 1 }, 2000, _phaser2.default.Easing.Linear.None, true);
+	      this.firstTween = game.add.tween(sorryText).to({ alpha: 1 }, 1000, _phaser2.default.Easing.Linear.None, true);
 	      this.firstTween.onComplete.addOnce(function () {
 	        _this2.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this2.showScore, _this2);
 	        _this2.game.input.onDown.addOnce(_this2.showScore, _this2);
@@ -112698,6 +112700,21 @@
 	      var _this3 = this;
 	
 	      var toScoreTween = this.game.add.tween(this.camera).to({ y: 540 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	      var Score = this.game.add.text(this.game.world.centerX, 700, "Score: " + this.finalScore, {
+	        font: "40px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      Score.anchor.set(0.5);
+	
+	      var bestScore = localStorage.getItem('SnatrisBest');
+	      bestScore = !bestScore ? 0 : bestScore;
+	      var OldScore = this.game.add.text(this.game.world.centerX, 750, "Personal best: " + bestScore, {
+	        font: "20px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      OldScore.anchor.set(0.5);
+	
+	      if (this.finalScore > best) localStorage.setItem('SnatrisBest', this.finalScore);
 	
 	      toScoreTween.onComplete.addOnce(function () {
 	        _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
@@ -112782,7 +112799,7 @@
 	      this.rightKey = game.input.keyboard.addKey(_phaser2.default.Keyboard.D);
 	      this.TouchDown = false;
 	
-	      this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
+	      this.ScoreText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
 	        font: "20px Arial",
 	        fill: "#FFFFFF",
 	        align: "left"
@@ -112793,7 +112810,7 @@
 	      this.deathSound = game.add.audio('death');
 	      this.deathSound.volume = 0.5;
 	      this.deathSound.onStop.add(function () {
-	        this.state.start('GameOver', false, false);
+	        this.state.start('GameOver', false, false, this.snatris.score);
 	      }, this);
 	
 	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
@@ -112831,7 +112848,10 @@
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      if (!this.snatris.alive && !this.deathSound.isPlaying) this.deathSound.play();
+	      if (!this.snatris.alive && !this.deathSound.isPlaying) {
+	        this.ScoreText.alpha = 0;
+	        this.deathSound.play();
+	      }
 	
 	      // Cursors
 	      if (this.cursors.left.isDown || this.leftKey.isDown) this.rotatePreview(-4);else if (this.cursors.right.isDown || this.rightKey.isDown) this.rotatePreview(4);
@@ -112848,6 +112868,7 @@
 	      }
 	
 	      this.snatris.addLinks(this.previewPiece, true);
+	      this.ScoreText.setText("Score: " + this.snatris.score);
 	    }
 	  }]);
 	

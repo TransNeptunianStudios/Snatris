@@ -31,7 +31,7 @@ export default class extends Phaser.State {
     });
     this.authorText.anchor.set(0, 0);
 
-    this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.1", {
+    this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.2", {
       font: "10px Arial",
       fill: "#FFFFFF"
     });

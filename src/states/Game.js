@@ -19,7 +19,7 @@ export default class extends Phaser.State {
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
     this.TouchDown = false;
 
-    this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
+    this.ScoreText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
       font: "20px Arial",
       fill: "#FFFFFF",
       align: "left"
@@ -30,7 +30,7 @@ export default class extends Phaser.State {
     this.deathSound = game.add.audio('death')
     this.deathSound.volume = 0.5
     this.deathSound.onStop.add(function() {
-          this.state.start('GameOver', false, false)
+          this.state.start('GameOver', false, false, this.snatris.score)
     }, this);
 
     this.pieces = [ [new Phaser.Point(0, -50)],
@@ -71,8 +71,10 @@ export default class extends Phaser.State {
   }
 
   update (){
-    if(!this.snatris.alive && !this.deathSound.isPlaying )
+    if(!this.snatris.alive && !this.deathSound.isPlaying ){
+      this.ScoreText.alpha = 0;
       this.deathSound.play()
+    }
 
     // Cursors
     if (this.cursors.left.isDown || this.leftKey.isDown)
@@ -94,5 +96,6 @@ export default class extends Phaser.State {
     }
 
     this.snatris.addLinks(this.previewPiece, true)
+    this.ScoreText.setText("Score: " + this.snatris.score);
   }
 }
