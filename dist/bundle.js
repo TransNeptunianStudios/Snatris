@@ -112370,7 +112370,10 @@
 	      this.load.image('background', './assets/images/Background.png');
 	      this.load.image('TNSlogo', './assets/images/TNS_logo.png');
 	
-	      this.load.audio('confirm', './assets/audio/confirm.wav');
+	      this.load.audio('confirm1', './assets/audio/confirm1.wav');
+	      this.load.audio('confirm2', './assets/audio/confirm2.wav');
+	      this.load.audio('confirm3', './assets/audio/confirm3.wav');
+	      this.load.audio('death', './assets/audio/death.wav');
 	    }
 	  }, {
 	    key: 'render',
@@ -112577,11 +112580,23 @@
 	      });
 	      this.titleText.anchor.set(0.5);
 	
-	      this.titleText = this.game.add.text(this.game.world.centerX, 950, "Start", {
-	        font: "35px Arial",
+	      this.startText = this.game.add.text(this.game.world.centerX, 950, "<press to start>", {
+	        font: "25px Arial",
 	        fill: "#FFFFFF"
 	      });
-	      this.titleText.anchor.set(0.5);
+	      this.startText.anchor.set(0.5);
+	
+	      this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher", {
+	        font: "10px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      this.authorText.anchor.set(0, 0);
+	
+	      this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.1", {
+	        font: "10px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      this.versionText.anchor.set(1, 0);
 	
 	      this.game.input.onDown.addOnce(this.startGame, this);
 	      this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.startGame, this);
@@ -112595,15 +112610,13 @@
 	      this.toBoard = this.game.add.tween(this.camera).to({ y: 0 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
 	      this.toBoard.onComplete.addOnce(function () {
 	        this.state.start('Game', false, false);
+	        this.titleText.alpha = 0;
+	        this.startText.alpha = 0;
 	      }, this);
 	    }
 	  }, {
 	    key: 'render',
-	    value: function render() {
-	      if (true) {
-	        //game.debug.cameraInfo(game.camera, 32, 32);
-	      }
-	    }
+	    value: function render() {}
 	  }]);
 	
 	  return _class;
@@ -112659,24 +112672,46 @@
 	  }, {
 	    key: 'create',
 	    value: function create() {
+	      var _this2 = this;
+	
 	      console.log("GameOverMenu create");
-	      this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.ToMainMenu, this);
+	
+	      var sorryText = this.game.add.text(this.game.world.centerX, 200, "Constellation complete", {
+	        font: "25px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      sorryText.alpha = 0;
+	      sorryText.anchor.set(0.5);
+	
+	      this.firstTween = game.add.tween(sorryText).to({ alpha: 1 }, 2000, _phaser2.default.Easing.Linear.None, true);
+	      this.firstTween.onComplete.addOnce(function () {
+	        _this2.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this2.showScore, _this2);
+	        _this2.game.input.onDown.addOnce(_this2.showScore, _this2);
+	      }, this);
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {}
 	  }, {
-	    key: 'ToMainMenu',
-	    value: function ToMainMenu() {
+	    key: 'showScore',
+	    value: function showScore() {
+	      var _this3 = this;
+	
+	      var toScoreTween = this.game.add.tween(this.camera).to({ y: 540 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	
+	      toScoreTween.onComplete.addOnce(function () {
+	        _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
+	        _this3.game.input.onDown.addOnce(_this3.toMainMenu, _this3);
+	      }, this);
+	    }
+	  }, {
+	    key: 'toMainMenu',
+	    value: function toMainMenu() {
 	      this.state.start('MainMenu');
 	    }
 	  }, {
 	    key: 'render',
-	    value: function render() {
-	      if (true) {
-	        game.debug.cameraInfo(game.camera, 32, 32);
-	      }
-	    }
+	    value: function render() {}
 	  }]);
 	
 	  return _class;
@@ -112743,7 +112778,8 @@
 	      // keyboard
 	      game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.add(this.confirmPlacement, this);
 	      this.cursors = game.input.keyboard.createCursorKeys();
-	
+	      this.leftKey = game.input.keyboard.addKey(_phaser2.default.Keyboard.A);
+	      this.rightKey = game.input.keyboard.addKey(_phaser2.default.Keyboard.D);
 	      this.TouchDown = false;
 	
 	      this.titleText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
@@ -112752,8 +112788,13 @@
 	        align: "left"
 	      });
 	
-	      this.confirmSound = game.add.audio('confirm');
-	      this.confirmSound.volume = 0.5;
+	      // SOUNDS
+	      this.confirmSounds = [game.add.audio('confirm1'), game.add.audio('confirm2'), game.add.audio('confirm3')];
+	      this.deathSound = game.add.audio('death');
+	      this.deathSound.volume = 0.5;
+	      this.deathSound.onStop.add(function () {
+	        this.state.start('GameOver', false, false);
+	      }, this);
 	
 	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
@@ -112782,29 +112823,28 @@
 	      this.previewPiece = this.game.rnd.pick(this.pieces);
 	      this.rotatePreview(this.game.rnd.integer() % 360);
 	      this.snatris.addLinks(this.previewPiece, true);
-	      this.confirmSound.play();
+	
+	      var confirm = this.game.rnd.pick(this.confirmSounds);
+	      confirm.volume = 0.5;
+	      confirm.play();
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      if (!this.snatris.alive) this.state.start('GameOver', false, false);
+	      if (!this.snatris.alive && !this.deathSound.isPlaying) this.deathSound.play();
 	
 	      // Cursors
-	      if (this.cursors.left.isDown) this.rotatePreview(-4);else if (this.cursors.right.isDown) this.rotatePreview(4);
+	      if (this.cursors.left.isDown || this.leftKey.isDown) this.rotatePreview(-4);else if (this.cursors.right.isDown || this.rightKey.isDown) this.rotatePreview(4);
 	
 	      // TOUCH
 	      if (game.input.activePointer.isDown && !this.TouchDown) {
 	        this.TouchDown = true;
-	        console.log("First down");
 	      } else if (game.input.activePointer.isDown) {
 	        var rot = game.input.speed.x + game.input.speed.y;
-	        console.log(rot);
 	        this.rotatePreview(rot);
 	      } else if (this.TouchDown) {
-	        // just released
 	        this.confirmPlacement();
 	        this.TouchDown = false;
-	        console.log("Release");
 	      }
 	
 	      this.snatris.addLinks(this.previewPiece, true);
@@ -112935,7 +112975,7 @@
 	
 	      if (withPreview) {
 	        for (var i = 0; i < this.nextLinks.length; i++) {
-	          this.graphics.lineStyle(2, 0xFF00FF);
+	          this.graphics.lineStyle(2, 0x0000FF);
 	          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
 	        }
 	      }

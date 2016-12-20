@@ -27,7 +27,10 @@ export default class extends Phaser.State {
     this.load.image('TNSlogo', './assets/images/TNS_logo.png');
 
 
-    this.load.audio('confirm', './assets/audio/confirm.wav')
+    this.load.audio('confirm1', './assets/audio/confirm1.wav')
+    this.load.audio('confirm2', './assets/audio/confirm2.wav')
+    this.load.audio('confirm3', './assets/audio/confirm3.wav')
+    this.load.audio('death', './assets/audio/death.wav')
   }
 
   render () {

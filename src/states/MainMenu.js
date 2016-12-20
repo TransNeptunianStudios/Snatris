@@ -19,11 +19,23 @@ export default class extends Phaser.State {
     });
     this.titleText.anchor.set(0.5);
 
-    this.titleText = this.game.add.text(this.game.world.centerX, 950, "Start", {
-      font: "35px Arial",
+    this.startText = this.game.add.text(this.game.world.centerX, 950, "<press to start>", {
+      font: "25px Arial",
       fill: "#FFFFFF"
     });
-    this.titleText.anchor.set(0.5);
+    this.startText.anchor.set(0.5);
+
+    this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher", {
+      font: "10px Arial",
+      fill: "#FFFFFF"
+    });
+    this.authorText.anchor.set(0, 0);
+
+    this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.1", {
+      font: "10px Arial",
+      fill: "#FFFFFF"
+    });
+    this.versionText.anchor.set(1, 0);
 
     this.game.input.onDown.addOnce(this.startGame, this);
     this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(this.startGame, this);
@@ -34,12 +46,13 @@ export default class extends Phaser.State {
 
   startGame() {
       this.toBoard = this.game.add.tween(this.camera).to( { y: 0 }, 400, Phaser.Easing.Quadratic.InOut, true, 200);
-      this.toBoard.onComplete.addOnce(function() {this.state.start('Game', false, false)}, this );
+      this.toBoard.onComplete.addOnce(function() {
+        this.state.start('Game', false, false)
+        this.titleText.alpha = 0;
+        this.startText.alpha = 0;
+      }, this);
   }
 
   render () {
-    if (__DEV__) {
-      //game.debug.cameraInfo(game.camera, 32, 32);
-    }
   }
 }
