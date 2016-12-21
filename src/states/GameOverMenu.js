@@ -7,9 +7,9 @@ export default class extends Phaser.State {
     this.finalScore = score
 
     this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful."]
-    this.Mediocre = ["Not bad.", "Pretty cool.", "Mediocre."]
-    this.Good = ["Amazing!", "Fabolous!"]
-    this.Best = ["Whoa man!!", "Damn Son!!"]
+    this.Mediocre = ["Not bad.", "Pretty cool.","Kinda neat.", "Mediocre."]
+    this.Good = ["Amazing!", "Fabulous!", "Awesome!!"]
+    this.Best = ["Whoa man!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"]
   }
   preload () {}
 
@@ -75,7 +75,6 @@ export default class extends Phaser.State {
       });
       highscoreText.anchor.set(0.5);
     }
-
 
     toScoreTween.onComplete.addOnce(()=>{
       this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(this.toMainMenu, this);

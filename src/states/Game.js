@@ -33,10 +33,14 @@ export default class extends Phaser.State {
           this.state.start('GameOver', false, false, this.snatris.score)
     }, this);
 
-    this.pieces = [ [new Phaser.Point(0, -50)],
+    this.pieces = [[new Phaser.Point(0, -50)],
                     [new Phaser.Point(0, -100)],
                     [new Phaser.Point(0, -50), new Phaser.Point(50, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0)],
+                    [new Phaser.Point(-25, 0), new Phaser.Point(0, -50)],
+                    [new Phaser.Point(25, 0), new Phaser.Point(0, -50)],
+                    [new Phaser.Point(0, -50), new Phaser.Point(-25, 0)],
+                    [new Phaser.Point(0, -50), new Phaser.Point(25, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-50, 0), new Phaser.Point(0, 50)],
                     [new Phaser.Point(0, -50), new Phaser.Point(50, 0), new Phaser.Point(0, 50)],
                     [new Phaser.Point(50, 0), new Phaser.Point(-50, -50), new Phaser.Point(50, 0)],

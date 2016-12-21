@@ -112661,9 +112661,9 @@
 	      this.finalScore = score;
 	
 	      this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful."];
-	      this.Mediocre = ["Not bad.", "Pretty cool.", "Mediocre."];
-	      this.Good = ["Amazing!", "Fabolous!"];
-	      this.Best = ["Whoa man!!", "Damn Son!!"];
+	      this.Mediocre = ["Not bad.", "Pretty cool.", "Kinda neat.", "Mediocre."];
+	      this.Good = ["Amazing!", "Fabulous!", "Awesome!!"];
+	      this.Best = ["Whoa man!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
 	    }
 	  }, {
 	    key: 'preload',
@@ -112829,7 +112829,7 @@
 	        this.state.start('GameOver', false, false, this.snatris.score);
 	      }, this);
 	
-	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
+	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
 	      this.snatris.addLinks(this.previewPiece, true);
 	      this.snatris.setBorder(30, 30, this.game.width - 30, this.game.height - 30);
