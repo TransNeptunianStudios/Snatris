@@ -6,6 +6,7 @@ export default class extends Phaser.State {
     this.stage.backgroundColor = '#000000'
     this.fontsReady = false
     this.fontsLoaded = this.fontsLoaded.bind(this)
+    this.game.world.setBounds(0, 0, this.game.world.width, this.game.world.height*2)
   }
 
   preload () {
@@ -25,6 +26,7 @@ export default class extends Phaser.State {
 
     this.load.image('background', './assets/images/Background.png');
     this.load.image('TNSlogo', './assets/images/TNS_logo.png');
+    this.load.image('title', './assets/images/title.png');
 
 
     this.load.audio('confirm1', './assets/audio/confirm1.wav')

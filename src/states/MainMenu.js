@@ -8,18 +8,13 @@ export default class extends Phaser.State {
 
   create () {
     console.log("MainMenu create");
-    this.game.world.setBounds(0, 0, 960, 1080);
     this.game.camera.setPosition(0, 540);
     this.game.add.sprite(0, 0, 'background');
 
-    this.titleText = this.game.add.text(this.game.world.centerX, 700, "The\n Snatris \n Constellation", {
-      font: "65px Arial",
-      fill: "#FFFFFF",
-      align: "center"
-    });
-    this.titleText.anchor.set(0.5);
+    this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height*0.7, 'title');
+    this.title.anchor.set(0.5);
 
-    this.startText = this.game.add.text(this.game.world.centerX, 950, "<press to start>", {
+    this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height*0.85, "<press to start>", {
       font: "25px Arial",
       fill: "#FFFFFF"
     });
@@ -48,7 +43,7 @@ export default class extends Phaser.State {
       this.toBoard = this.game.add.tween(this.camera).to( { y: 0 }, 400, Phaser.Easing.Quadratic.InOut, true, 200);
       this.toBoard.onComplete.addOnce(function() {
         this.state.start('Game', false, false)
-        this.titleText.alpha = 0;
+        this.title.alpha = 0;
         this.startText.alpha = 0;
       }, this);
   }

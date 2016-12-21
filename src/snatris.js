@@ -91,7 +91,7 @@ export default class extends Phaser.Group {
 
       if( withPreview ){
         for (var i = 0; i < this.nextLinks.length; i++) {
-          this.graphics.lineStyle(2, 0x0000FF);
+          this.graphics.lineStyle(2, 0x3B9243);
           this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
         }
       }

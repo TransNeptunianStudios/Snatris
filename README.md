@@ -10,9 +10,9 @@ Todo short term:
 
 Todo sometime maybe:
 * Change screen size, make it dynamic? is it even possible?
-* More game modes! Static
+* More game modes! Static?
 * More pieces!
 * Planets to "eat"?!
 * new background?
-* Cool logo
+* ~~Cool logo~~
 * Zardoz cameo?!

@@ -112349,6 +112349,7 @@
 	      this.stage.backgroundColor = '#000000';
 	      this.fontsReady = false;
 	      this.fontsLoaded = this.fontsLoaded.bind(this);
+	      this.game.world.setBounds(0, 0, this.game.world.width, this.game.world.height * 2);
 	    }
 	  }, {
 	    key: 'preload',
@@ -112369,6 +112370,7 @@
 	
 	      this.load.image('background', './assets/images/Background.png');
 	      this.load.image('TNSlogo', './assets/images/TNS_logo.png');
+	      this.load.image('title', './assets/images/title.png');
 	
 	      this.load.audio('confirm1', './assets/audio/confirm1.wav');
 	      this.load.audio('confirm2', './assets/audio/confirm2.wav');
@@ -112465,17 +112467,12 @@
 	  }, {
 	    key: 'preload',
 	    value: function preload() {
-	      //this.loaderBg =  this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
-	      //this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
 	      this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'TNSlogo');
-	
 	      (0, _utils.centerGameObjects)([this.logo]);
-	      //this.load.setPreloadSprite(this.loaderBar)
 	    }
 	  }, {
 	    key: 'create',
 	    value: function create() {
-	      console.log("Splash create");
 	      this.logo.alpha = 0;
 	      var fadeTween = this.game.add.tween(this.logo).to({ alpha: 1 }, 4000, _phaser2.default.Easing.Linear.None, true, 1000);
 	      fadeTween.onComplete.addOnce(function () {
@@ -112569,18 +112566,13 @@
 	    key: 'create',
 	    value: function create() {
 	      console.log("MainMenu create");
-	      this.game.world.setBounds(0, 0, 960, 1080);
 	      this.game.camera.setPosition(0, 540);
 	      this.game.add.sprite(0, 0, 'background');
 	
-	      this.titleText = this.game.add.text(this.game.world.centerX, 700, "The\n Snatris \n Constellation", {
-	        font: "65px Arial",
-	        fill: "#FFFFFF",
-	        align: "center"
-	      });
-	      this.titleText.anchor.set(0.5);
+	      this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 0.7, 'title');
+	      this.title.anchor.set(0.5);
 	
-	      this.startText = this.game.add.text(this.game.world.centerX, 950, "<press to start>", {
+	      this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.85, "<press to start>", {
 	        font: "25px Arial",
 	        fill: "#FFFFFF"
 	      });
@@ -112592,7 +112584,7 @@
 	      });
 	      this.authorText.anchor.set(0, 0);
 	
-	      this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.1", {
+	      this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.2", {
 	        font: "10px Arial",
 	        fill: "#FFFFFF"
 	      });
@@ -112610,7 +112602,7 @@
 	      this.toBoard = this.game.add.tween(this.camera).to({ y: 0 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
 	      this.toBoard.onComplete.addOnce(function () {
 	        this.state.start('Game', false, false);
-	        this.titleText.alpha = 0;
+	        this.title.alpha = 0;
 	        this.startText.alpha = 0;
 	      }, this);
 	    }
@@ -112714,7 +112706,7 @@
 	      });
 	      OldScore.anchor.set(0.5);
 	
-	      if (this.finalScore > best) localStorage.setItem('SnatrisBest', this.finalScore);
+	      if (this.finalScore > bestScore) localStorage.setItem('SnatrisBest', this.finalScore);
 	
 	      toScoreTween.onComplete.addOnce(function () {
 	        _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
@@ -112996,7 +112988,7 @@
 	
 	      if (withPreview) {
 	        for (var i = 0; i < this.nextLinks.length; i++) {
-	          this.graphics.lineStyle(2, 0x0000FF);
+	          this.graphics.lineStyle(2, 0x3B9243);
 	          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
 	        }
 	      }
