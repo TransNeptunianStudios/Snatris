@@ -70,6 +70,13 @@ export default class extends Phaser.Group {
       return false;
     }
 
+    setBorder(x, y, w, h){
+      this.bx = x
+      this.by = y
+      this.bw = w
+      this.bh = h
+    }
+
     isInside(x, y, w, h) {
       for (var i = 0; i < this.links.length; i++) {
         if(this.links[i].x < x || this.links[i].x > w || this.links[i].y < y || this.links[i].y > h)
@@ -82,23 +89,33 @@ export default class extends Phaser.Group {
       var head = this.links[this.links.length-1]
       var tail = this.links[0]
 
+      // main body
       this.graphics.clear()
       this.graphics.moveTo(tail.x, tail.y)
       for (var i = 1; i < this.links.length; i++) {
-        this.graphics.lineStyle(2, 0xFFFFFF);
+        this.graphics.lineStyle(1, 0xFFFFFF);
         this.graphics.lineTo(this.links[i].x, this.links[i].y);
       }
 
+      // preview
       if( withPreview ){
         for (var i = 0; i < this.nextLinks.length; i++) {
           this.graphics.lineStyle(2, 0x3B9243);
           this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
         }
       }
+
+      // Border
+      this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
+      this.graphics.moveTo(this.bx, this.by)
+      this.graphics.lineTo(this.bw, this.by)
+      this.graphics.lineTo(this.bw, this.bh)
+      this.graphics.lineTo(this.bx, this.bh)
+      this.graphics.lineTo(this.bx, this.by)
     }
 
     update () {
-      if( !this.isColliding() && this.isInside(0,0, this.game.width, this.game.height)){
+      if( !this.isColliding() && this.isInside(this.bx, this.by, this.bw, this.bh)){
         this.snakeify()
         this.reDraw(true);
 

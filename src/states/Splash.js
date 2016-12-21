@@ -5,7 +5,7 @@ export default class extends Phaser.State {
   init () {}
 
   preload () {
-    this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'TNSlogo');
+    this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY/2, 'TNSlogo');
     centerGameObjects([this.logo])
   }
 

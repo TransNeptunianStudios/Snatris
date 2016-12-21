@@ -112467,7 +112467,7 @@
 	  }, {
 	    key: 'preload',
 	    value: function preload() {
-	      this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'TNSlogo');
+	      this.logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY / 2, 'TNSlogo');
 	      (0, _utils.centerGameObjects)([this.logo]);
 	    }
 	  }, {
@@ -112572,19 +112572,19 @@
 	      this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 0.7, 'title');
 	      this.title.anchor.set(0.5);
 	
-	      this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.85, "<press to start>", {
-	        font: "25px Arial",
+	      this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.965, "Press to start", {
+	        font: "20px Arial",
 	        fill: "#FFFFFF"
 	      });
 	      this.startText.anchor.set(0.5);
 	
-	      this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher", {
+	      this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher with art from Mikael Larsson & Johannes Carlsson", {
 	        font: "10px Arial",
 	        fill: "#FFFFFF"
 	      });
 	      this.authorText.anchor.set(0, 0);
 	
-	      this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.2", {
+	      this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.4", {
 	        font: "10px Arial",
 	        fill: "#FFFFFF"
 	      });
@@ -112659,6 +112659,11 @@
 	    key: 'init',
 	    value: function init(score) {
 	      this.finalScore = score;
+	
+	      this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful."];
+	      this.Mediocre = ["Not bad.", "Pretty cool.", "Mediocre."];
+	      this.Good = ["Amazing!", "Fabolous!"];
+	      this.Best = ["Whoa man!!", "Damn Son!!"];
 	    }
 	  }, {
 	    key: 'preload',
@@ -112670,18 +112675,23 @@
 	
 	      console.log("GameOverMenu create");
 	
-	      var sorryText = this.game.add.text(this.game.world.centerX, 200, "Constellation complete", {
-	        font: "25px Arial",
+	      var sorryText = this.game.add.text(this.game.world.centerX, this.game.world.height / 2 + 3, "Snatris Constellation Complete", {
+	        font: "20px Arial",
 	        fill: "#FFFFFF"
 	      });
 	      sorryText.alpha = 0;
-	      sorryText.anchor.set(0.5);
+	      sorryText.anchor.set(0.5, 1);
 	
 	      this.firstTween = game.add.tween(sorryText).to({ alpha: 1 }, 1000, _phaser2.default.Easing.Linear.None, true);
 	      this.firstTween.onComplete.addOnce(function () {
 	        _this2.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this2.showScore, _this2);
 	        _this2.game.input.onDown.addOnce(_this2.showScore, _this2);
 	      }, this);
+	    }
+	  }, {
+	    key: 'getReaction',
+	    value: function getReaction(score) {
+	      if (score > 50) return this.game.rnd.pick(this.Best);else if (score > 40) return this.game.rnd.pick(this.Good);else if (score > 30) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
 	    }
 	  }, {
 	    key: 'update',
@@ -112692,6 +112702,13 @@
 	      var _this3 = this;
 	
 	      var toScoreTween = this.game.add.tween(this.camera).to({ y: 540 }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	
+	      var reaction = this.game.add.text(this.game.world.centerX, 650, this.getReaction(this.finalScore), {
+	        font: "40px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      reaction.anchor.set(0.5);
+	
 	      var Score = this.game.add.text(this.game.world.centerX, 700, "Score: " + this.finalScore, {
 	        font: "40px Arial",
 	        fill: "#FFFFFF"
@@ -112700,13 +112717,20 @@
 	
 	      var bestScore = localStorage.getItem('SnatrisBest');
 	      bestScore = !bestScore ? 0 : bestScore;
-	      var OldScore = this.game.add.text(this.game.world.centerX, 750, "Personal best: " + bestScore, {
+	      var OldScore = this.game.add.text(this.game.world.centerX, 900, "Old personal best: " + bestScore, {
 	        font: "20px Arial",
 	        fill: "#FFFFFF"
 	      });
 	      OldScore.anchor.set(0.5);
 	
-	      if (this.finalScore > bestScore) localStorage.setItem('SnatrisBest', this.finalScore);
+	      if (this.finalScore > bestScore) {
+	        localStorage.setItem('SnatrisBest', this.finalScore);
+	        var highscoreText = this.game.add.text(this.game.world.centerX, 870, "New personal best!", {
+	          font: "20px Arial",
+	          fill: "#FFFFFF"
+	        });
+	        highscoreText.anchor.set(0.5);
+	      }
 	
 	      toScoreTween.onComplete.addOnce(function () {
 	        _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
@@ -112791,7 +112815,7 @@
 	      this.rightKey = game.input.keyboard.addKey(_phaser2.default.Keyboard.D);
 	      this.TouchDown = false;
 	
-	      this.ScoreText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
+	      this.ScoreText = this.game.add.text(this.game.world.width - 130, 6, "Score: 0", {
 	        font: "20px Arial",
 	        fill: "#FFFFFF",
 	        align: "left"
@@ -112808,6 +112832,7 @@
 	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
 	      this.snatris.addLinks(this.previewPiece, true);
+	      this.snatris.setBorder(30, 30, this.game.width - 30, this.game.height - 30);
 	    }
 	  }, {
 	    key: 'rotatePreview',
@@ -112828,6 +112853,8 @@
 	  }, {
 	    key: 'confirmPlacement',
 	    value: function confirmPlacement() {
+	      if (!this.snatris.alive) return;
+	
 	      this.snatris.addLinks(this.previewPiece);
 	      this.previewPiece = this.game.rnd.pick(this.pieces);
 	      this.rotatePreview(this.game.rnd.integer() % 360);
@@ -112966,6 +112993,14 @@
 	      return false;
 	    }
 	  }, {
+	    key: 'setBorder',
+	    value: function setBorder(x, y, w, h) {
+	      this.bx = x;
+	      this.by = y;
+	      this.bw = w;
+	      this.bh = h;
+	    }
+	  }, {
 	    key: 'isInside',
 	    value: function isInside(x, y, w, h) {
 	      for (var i = 0; i < this.links.length; i++) {
@@ -112979,24 +113014,34 @@
 	      var head = this.links[this.links.length - 1];
 	      var tail = this.links[0];
 	
+	      // main body
 	      this.graphics.clear();
 	      this.graphics.moveTo(tail.x, tail.y);
 	      for (var i = 1; i < this.links.length; i++) {
-	        this.graphics.lineStyle(2, 0xFFFFFF);
+	        this.graphics.lineStyle(1, 0xFFFFFF);
 	        this.graphics.lineTo(this.links[i].x, this.links[i].y);
 	      }
 	
+	      // preview
 	      if (withPreview) {
 	        for (var i = 0; i < this.nextLinks.length; i++) {
 	          this.graphics.lineStyle(2, 0x3B9243);
 	          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
 	        }
 	      }
+	
+	      // Border
+	      this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
+	      this.graphics.moveTo(this.bx, this.by);
+	      this.graphics.lineTo(this.bw, this.by);
+	      this.graphics.lineTo(this.bw, this.bh);
+	      this.graphics.lineTo(this.bx, this.bh);
+	      this.graphics.lineTo(this.bx, this.by);
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      if (!this.isColliding() && this.isInside(0, 0, this.game.width, this.game.height)) {
+	      if (!this.isColliding() && this.isInside(this.bx, this.by, this.bw, this.bh)) {
 	        this.snakeify();
 	        this.reDraw(true);
 	

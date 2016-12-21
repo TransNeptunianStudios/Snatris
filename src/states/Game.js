@@ -19,7 +19,7 @@ export default class extends Phaser.State {
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
     this.TouchDown = false;
 
-    this.ScoreText = this.game.add.text(this.game.world.width - 130, 20, "Score: 0", {
+    this.ScoreText = this.game.add.text(this.game.world.width - 130, 6, "Score: 0", {
       font: "20px Arial",
       fill: "#FFFFFF",
       align: "left"
@@ -43,6 +43,7 @@ export default class extends Phaser.State {
                     [new Phaser.Point(-50, 0), new Phaser.Point(50, -50), new Phaser.Point(-50, 0)]]
     this.previewPiece = [new Phaser.Point(0, -50)]
     this.snatris.addLinks(this.previewPiece, true)
+    this.snatris.setBorder(30, 30, this.game.width-30, this.game.height-30)
   }
   rotatePreview (angle) {
     var theta = Phaser.Math.degToRad(angle);
@@ -60,6 +61,9 @@ export default class extends Phaser.State {
   }
 
   confirmPlacement() {
+    if(!this.snatris.alive)
+      return;
+
     this.snatris.addLinks(this.previewPiece)
     this.previewPiece = this.game.rnd.pick(this.pieces)
     this.rotatePreview (this.game.rnd.integer()%360)

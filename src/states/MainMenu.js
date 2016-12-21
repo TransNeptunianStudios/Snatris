@@ -14,19 +14,19 @@ export default class extends Phaser.State {
     this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height*0.7, 'title');
     this.title.anchor.set(0.5);
 
-    this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height*0.85, "<press to start>", {
-      font: "25px Arial",
+    this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height*0.965, "Press to start", {
+      font: "20px Arial",
       fill: "#FFFFFF"
     });
     this.startText.anchor.set(0.5);
 
-    this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher", {
+    this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher with art from Mikael Larsson & Johannes Carlsson", {
       font: "10px Arial",
       fill: "#FFFFFF"
     });
     this.authorText.anchor.set(0, 0);
 
-    this.versionText = this.game.add.text(this.game.world.width - 5, this.game.world.height - 15, "v. 0.2", {
+    this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.4", {
       font: "10px Arial",
       fill: "#FFFFFF"
     });
