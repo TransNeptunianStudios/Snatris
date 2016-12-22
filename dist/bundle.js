@@ -48,7 +48,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(/*! babel-polyfill */1);
-	module.exports = __webpack_require__(/*! C:\Users\robinre\Documents\Snatris\src\main.js */298);
+	module.exports = __webpack_require__(/*! /home/regen/Documents/Snatris/src/main.js */298);
 
 
 /***/ },
@@ -112662,7 +112662,7 @@
 	
 	      this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful."];
 	      this.Mediocre = ["Not bad.", "Pretty cool.", "Kinda neat.", "Mediocre."];
-	      this.Good = ["Amazing!", "Fabulous!", "Awesome!!"];
+	      this.Good = ["Amazing!", "Fabulous!", "Awesome!!", "Impressive!"];
 	      this.Best = ["Whoa man!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
 	    }
 	  }, {
@@ -112691,7 +112691,7 @@
 	  }, {
 	    key: 'getReaction',
 	    value: function getReaction(score) {
-	      if (score > 50) return this.game.rnd.pick(this.Best);else if (score > 40) return this.game.rnd.pick(this.Good);else if (score > 30) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
+	      if (score > 50) return this.game.rnd.pick(this.Best);else if (score > 35) return this.game.rnd.pick(this.Good);else if (score > 20) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
 	    }
 	  }, {
 	    key: 'update',
@@ -112826,7 +112826,7 @@
 	      // SOUNDS
 	      this.confirmSounds = [game.add.audio('confirm1'), game.add.audio('confirm2'), game.add.audio('confirm3')];
 	
-	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
+	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(-25, -25), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(25, -25), new _phaser2.default.Point(-25, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
 	      this.snatris.addLinks(this.previewPiece, true);
 	
@@ -112865,8 +112865,8 @@
 	
 	      this.snatris.addLinks(this.previewPiece);
 	      this.previewPiece = this.game.rnd.pick(this.pieces);
-	      this.rotatePreview(this.game.rnd.integer() % 360);
 	      this.snatris.addLinks(this.previewPiece, true);
+	      this.rotatePreview(this.game.rnd.integer() % 360);
 	
 	      var confirm = this.game.rnd.pick(this.confirmSounds);
 	      confirm.volume = 0.5;

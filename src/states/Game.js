@@ -38,10 +38,10 @@ export default class extends Phaser.State {
                     [new Phaser.Point(25, 0), new Phaser.Point(0, -50)],
                     [new Phaser.Point(0, -50), new Phaser.Point(-25, 0)],
                     [new Phaser.Point(0, -50), new Phaser.Point(25, 0)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(-50, 0), new Phaser.Point(0, 50)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(50, 0), new Phaser.Point(0, 50)],
-                    [new Phaser.Point(50, 0), new Phaser.Point(-50, -50), new Phaser.Point(50, 0)],
-                    [new Phaser.Point(-50, 0), new Phaser.Point(50, -50), new Phaser.Point(-50, 0)]]
+                    [new Phaser.Point(0, -25), new Phaser.Point(-25, 0), new Phaser.Point(0, 25)],
+                    [new Phaser.Point(0, -25), new Phaser.Point(25, 0), new Phaser.Point(0, 25)],
+                    [new Phaser.Point(25, 0), new Phaser.Point(-25, -25), new Phaser.Point(25, 0)],
+                    [new Phaser.Point(-25, 0), new Phaser.Point(25, -25), new Phaser.Point(-25, 0)]]
     this.previewPiece = [new Phaser.Point(0, -50)]
     this.snatris.addLinks(this.previewPiece, true)
 
@@ -77,8 +77,8 @@ export default class extends Phaser.State {
 
     this.snatris.addLinks(this.previewPiece)
     this.previewPiece = this.game.rnd.pick(this.pieces)
-    this.rotatePreview (this.game.rnd.integer()%360)
     this.snatris.addLinks(this.previewPiece, true)
+    this.rotatePreview (this.game.rnd.integer()%360)
 
     var confirm = this.game.rnd.pick(this.confirmSounds)
     confirm.volume = 0.5;
