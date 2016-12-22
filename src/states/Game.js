@@ -1,121 +1,78 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Snatris from '../snatris'
-import {setResponsiveWidth} from '../utils'
+import {
+    setResponsiveWidth
+} from '../utils'
 
 export default class extends Phaser.State {
-  init () {}
-  preload () {}
+    init() {}
+    preload() {}
 
-  create (){
-    this.graphics = this.game.add.graphics(0, 0);
-    this.border = {x: 30, y: 30, w: this.game.width-30, h: this.game.height-30}
+    create() {
+        this.graphics = this.game.add.graphics(0, 0);
+        this.border = {
+            x: 30,
+            y: 30,
+            w: this.game.width - 30,
+            h: this.game.height - 30
+        }
 
-    this.snatris = new Snatris(this.game, this.game.world.centerX, 400)
-    this.game.add.existing(this.snatris)
+        this.snatris = new Snatris(this.game, this.game.world.centerX, 500)
+        this.game.add.existing(this.snatris)
 
-    // keyboard
-    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.confirmPlacement, this)
-    this.cursors = game.input.keyboard.createCursorKeys()
-    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
-    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
-    this.TouchDown = false;
+        // Keyboard+Mouse input
+        game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.snatris.confirmPlacement, this.snatris)
+        this.cursors = game.input.keyboard.createCursorKeys()
+        this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
+        this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+        this.TouchDown = false;
 
-    this.ScoreText = this.game.add.text(this.game.world.width - 130, 6, "Score: 0", {
-      font: "20px Arial",
-      fill: "#FFFFFF",
-      align: "left"
-    });
-
-    // SOUNDS
-    this.confirmSounds = [game.add.audio('confirm1'), game.add.audio('confirm2'), game.add.audio('confirm3')]
-
-    this.pieces = [[new Phaser.Point(0, -50)],
-                    [new Phaser.Point(0, -100)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(50, 0)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(-50, 0)],
-                    [new Phaser.Point(-25, 0), new Phaser.Point(0, -50)],
-                    [new Phaser.Point(25, 0), new Phaser.Point(0, -50)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(-25, 0)],
-                    [new Phaser.Point(0, -50), new Phaser.Point(25, 0)],
-                    [new Phaser.Point(0, -25), new Phaser.Point(-25, 0), new Phaser.Point(0, 25)],
-                    [new Phaser.Point(0, -25), new Phaser.Point(25, 0), new Phaser.Point(0, 25)],
-                    [new Phaser.Point(25, 0), new Phaser.Point(-25, -25), new Phaser.Point(25, 0)],
-                    [new Phaser.Point(-25, 0), new Phaser.Point(25, -25), new Phaser.Point(-25, 0)]]
-    this.previewPiece = [new Phaser.Point(0, -50)]
-    this.snatris.addLinks(this.previewPiece, true)
+        this.score = 0;
+        this.ScoreText = this.game.add.text(this.game.world.width - 130, 6, "Score: " + this.score, {
+            font: "20px Arial",
+            fill: "#FFFFFF",
+            align: "left"
+        });
 
         this.drawBorder();
-  }
-  rotatePreview (angle) {
-    var theta = Phaser.Math.degToRad(angle);
-
-    var cs = Math.cos(theta);
-    var sn = Math.sin(theta);
-
-    for (var i = 0; i < this.previewPiece.length; i++) {
-      var px = this.previewPiece[i].x * cs - this.previewPiece[i].y * sn
-      var py = this.previewPiece[i].x * sn + this.previewPiece[i].y * cs
-
-      this.previewPiece[i].x = px;
-      this.previewPiece[i].y = py;
-    }
-  }
-
-  drawBorder() {
-    this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
-    this.graphics.moveTo(this.border.x, this.border.y)
-    this.graphics.lineTo(this.border.w, this.border.y)
-    this.graphics.lineTo(this.border.w, this.border.h)
-    this.graphics.lineTo(this.border.x, this.border.h)
-    this.graphics.lineTo(this.border.x, this.border.y)
-  }
-
-  confirmPlacement() {
-    if(!this.snatris.alive)
-      return;
-
-    this.snatris.addLinks(this.previewPiece)
-    this.previewPiece = this.game.rnd.pick(this.pieces)
-    this.snatris.addLinks(this.previewPiece, true)
-    this.rotatePreview (this.game.rnd.integer()%360)
-
-    var confirm = this.game.rnd.pick(this.confirmSounds)
-    confirm.volume = 0.5;
-    confirm.play()
-  }
-
-  update (){
-    if(!this.snatris.alive){
-      this.ScoreText.alpha = 0;
-      this.state.start('GameOver', false, false, this.score)
     }
 
-    if(!this.snatris.isInside(this.border.x, this.border.y, this.border.w, this.border.h))
-      this.snatris.complete();
-
-    this.score = this.snatris.links.length;
-
-    // Cursors
-    if (this.cursors.left.isDown || this.leftKey.isDown)
-      this.rotatePreview(-4)
-    else if (this.cursors.right.isDown || this.rightKey.isDown)
-      this.rotatePreview(4)
-
-    // TOUCH
-    if(game.input.activePointer.isDown && !this.TouchDown){
-      this.TouchDown = true;
-    }
-    else if(game.input.activePointer.isDown){
-      var rot = game.input.speed.x + game.input.speed.y;
-      this.rotatePreview(rot);
-    }
-    else if(this.TouchDown){
-      this.confirmPlacement();
-      this.TouchDown = false;
+    drawBorder() {
+        this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
+        this.graphics.moveTo(this.border.x, this.border.y)
+        this.graphics.lineTo(this.border.w, this.border.y)
+        this.graphics.lineTo(this.border.w, this.border.h)
+        this.graphics.lineTo(this.border.x, this.border.h)
+        this.graphics.lineTo(this.border.x, this.border.y)
     }
 
-    this.snatris.addLinks(this.previewPiece, true)
-    this.ScoreText.setText("Score: " + this.score);
-  }
+    update() {
+        if (!this.snatris.alive) {
+            this.ScoreText.alpha = 0;
+            this.state.start('GameOver', false, false, this.score)
+        }
+
+        if (!this.snatris.isInside(this.border.x, this.border.y, this.border.w, this.border.h))
+            this.snatris.complete();
+
+        // Cursors
+        if (this.cursors.left.isDown || this.leftKey.isDown)
+            this.snatris.rotatePreview(-4)
+        else if (this.cursors.right.isDown || this.rightKey.isDown)
+            this.snatris.rotatePreview(4)
+
+        // TOUCH
+        if (game.input.activePointer.isDown && !this.TouchDown)
+            this.TouchDown = true;
+        else if (game.input.activePointer.isDown)
+            this.snatris.rotatePreview(game.input.speed.x + game.input.speed.y);
+        else if (this.TouchDown) {
+            this.snatris.confirmPlacement();
+            this.TouchDown = false;
+        }
+
+        this.score = this.snatris.links.length;
+        this.ScoreText.setText("Score: " + this.score);
+    }
 }
