@@ -112804,8 +112804,10 @@
 	  }, {
 	    key: 'create',
 	    value: function create() {
-	      var startPoint = new _phaser2.default.Point(this.game.world.centerX, 400);
-	      this.snatris = new _snatris2.default(this.game, startPoint.x, startPoint.y);
+	      this.graphics = this.game.add.graphics(0, 0);
+	      this.border = { x: 30, y: 30, w: this.game.width - 30, h: this.game.height - 30 };
+	
+	      this.snatris = new _snatris2.default(this.game, this.game.world.centerX, 400);
 	      this.game.add.existing(this.snatris);
 	
 	      // keyboard
@@ -112823,16 +112825,12 @@
 	
 	      // SOUNDS
 	      this.confirmSounds = [game.add.audio('confirm1'), game.add.audio('confirm2'), game.add.audio('confirm3')];
-	      this.deathSound = game.add.audio('death');
-	      this.deathSound.volume = 0.5;
-	      this.deathSound.onStop.add(function () {
-	        this.state.start('GameOver', false, false, this.snatris.score);
-	      }, this);
 	
 	      this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0), new _phaser2.default.Point(0, 50)], [new _phaser2.default.Point(50, 0), new _phaser2.default.Point(-50, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(-50, 0), new _phaser2.default.Point(50, -50), new _phaser2.default.Point(-50, 0)]];
 	      this.previewPiece = [new _phaser2.default.Point(0, -50)];
 	      this.snatris.addLinks(this.previewPiece, true);
-	      this.snatris.setBorder(30, 30, this.game.width - 30, this.game.height - 30);
+	
+	      this.drawBorder();
 	    }
 	  }, {
 	    key: 'rotatePreview',
@@ -112851,6 +112849,16 @@
 	      }
 	    }
 	  }, {
+	    key: 'drawBorder',
+	    value: function drawBorder() {
+	      this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
+	      this.graphics.moveTo(this.border.x, this.border.y);
+	      this.graphics.lineTo(this.border.w, this.border.y);
+	      this.graphics.lineTo(this.border.w, this.border.h);
+	      this.graphics.lineTo(this.border.x, this.border.h);
+	      this.graphics.lineTo(this.border.x, this.border.y);
+	    }
+	  }, {
 	    key: 'confirmPlacement',
 	    value: function confirmPlacement() {
 	      if (!this.snatris.alive) return;
@@ -112867,10 +112875,14 @@
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      if (!this.snatris.alive && !this.deathSound.isPlaying) {
+	      if (!this.snatris.alive) {
 	        this.ScoreText.alpha = 0;
-	        this.deathSound.play();
+	        this.state.start('GameOver', false, false, this.score);
 	      }
+	
+	      if (!this.snatris.isInside(this.border.x, this.border.y, this.border.w, this.border.h)) this.snatris.complete();
+	
+	      this.score = this.snatris.links.length;
 	
 	      // Cursors
 	      if (this.cursors.left.isDown || this.leftKey.isDown) this.rotatePreview(-4);else if (this.cursors.right.isDown || this.rightKey.isDown) this.rotatePreview(4);
@@ -112887,7 +112899,7 @@
 	      }
 	
 	      this.snatris.addLinks(this.previewPiece, true);
-	      this.ScoreText.setText("Score: " + this.snatris.score);
+	      this.ScoreText.setText("Score: " + this.score);
 	    }
 	  }]);
 	
@@ -112938,6 +112950,9 @@
 	    _this.links = [new _phaser2.default.Point(startX, startY)];
 	    _this.nextLinks = [];
 	    _this.score = 0;
+	
+	    _this.deathSound = game.add.audio('death');
+	    _this.deathSound.volume = 0.5;
 	    return _this;
 	  }
 	
@@ -112975,8 +112990,8 @@
 	      head.y -= dirHead.y;
 	    }
 	  }, {
-	    key: 'isColliding',
-	    value: function isColliding() {
+	    key: 'checkCollision',
+	    value: function checkCollision() {
 	      for (var i = 0; i < this.links.length - 1; i++) {
 	        for (var j = 0; j < this.links.length - 1; j++) {
 	          if (i == j) continue;
@@ -113009,6 +113024,13 @@
 	      return true;
 	    }
 	  }, {
+	    key: 'complete',
+	    value: function complete() {
+	      this.alive = false;
+	      this.deathSound.play();
+	      this.reDraw(false);
+	    }
+	  }, {
 	    key: 'reDraw',
 	    value: function reDraw(withPreview) {
 	      var head = this.links[this.links.length - 1];
@@ -113029,27 +113051,16 @@
 	          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
 	        }
 	      }
-	
-	      // Border
-	      this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
-	      this.graphics.moveTo(this.bx, this.by);
-	      this.graphics.lineTo(this.bw, this.by);
-	      this.graphics.lineTo(this.bw, this.bh);
-	      this.graphics.lineTo(this.bx, this.bh);
-	      this.graphics.lineTo(this.bx, this.by);
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      if (!this.isColliding() && this.isInside(this.bx, this.by, this.bw, this.bh)) {
-	        this.snakeify();
-	        this.reDraw(true);
+	      if (!this.alive) return;
 	
-	        this.score = this.links.length - 1;
-	      } else {
-	        this.alive = false;
-	        this.reDraw(false);
-	      }
+	      this.snakeify();
+	      this.reDraw(true);
+	
+	      if (this.checkCollision()) this.complete();
 	    }
 	  }]);
 	

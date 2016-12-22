@@ -12,6 +12,9 @@ export default class extends Phaser.Group {
         this.links = [new Phaser.Point(startX, startY)]
         this.nextLinks = []
         this.score = 0;
+
+        this.deathSound = game.add.audio('death')
+        this.deathSound.volume = 0.5
     }
 
     addLinks( relativeLinks, preview ) {
@@ -50,7 +53,7 @@ export default class extends Phaser.Group {
       head.y -= dirHead.y
     }
 
-    isColliding() {
+    checkCollision() {
       for (var i = 0; i < this.links.length-1; i++) {
         for (var j = 0; j < this.links.length-1; j++) {
            if(i == j)
@@ -85,6 +88,12 @@ export default class extends Phaser.Group {
       return true;
     }
 
+    complete() {
+      this.alive = false;
+      this.deathSound.play();
+      this.reDraw(false)
+    }
+
     reDraw( withPreview ){
       var head = this.links[this.links.length-1]
       var tail = this.links[0]
@@ -104,26 +113,16 @@ export default class extends Phaser.Group {
           this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
         }
       }
-
-      // Border
-      this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
-      this.graphics.moveTo(this.bx, this.by)
-      this.graphics.lineTo(this.bw, this.by)
-      this.graphics.lineTo(this.bw, this.bh)
-      this.graphics.lineTo(this.bx, this.bh)
-      this.graphics.lineTo(this.bx, this.by)
     }
 
     update () {
-      if( !this.isColliding() && this.isInside(this.bx, this.by, this.bw, this.bh)){
-        this.snakeify()
-        this.reDraw(true);
+      if(!this.alive)
+        return;
 
-        this.score = this.links.length-1;
-      }
-      else{
-        this.alive = false;
-        this.reDraw(false);
-      }
+      this.snakeify()
+      this.reDraw(true)
+
+      if(this.checkCollision())
+        this.complete()
     }
 }

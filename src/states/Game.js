@@ -8,8 +8,10 @@ export default class extends Phaser.State {
   preload () {}
 
   create (){
-    var startPoint = new Phaser.Point(this.game.world.centerX, 400)
-    this.snatris = new Snatris(this.game, startPoint.x, startPoint.y)
+    this.graphics = this.game.add.graphics(0, 0);
+    this.border = {x: 30, y: 30, w: this.game.width-30, h: this.game.height-30}
+
+    this.snatris = new Snatris(this.game, this.game.world.centerX, 400)
     this.game.add.existing(this.snatris)
 
     // keyboard
@@ -27,11 +29,6 @@ export default class extends Phaser.State {
 
     // SOUNDS
     this.confirmSounds = [game.add.audio('confirm1'), game.add.audio('confirm2'), game.add.audio('confirm3')]
-    this.deathSound = game.add.audio('death')
-    this.deathSound.volume = 0.5
-    this.deathSound.onStop.add(function() {
-          this.state.start('GameOver', false, false, this.snatris.score)
-    }, this);
 
     this.pieces = [[new Phaser.Point(0, -50)],
                     [new Phaser.Point(0, -100)],
@@ -47,7 +44,8 @@ export default class extends Phaser.State {
                     [new Phaser.Point(-50, 0), new Phaser.Point(50, -50), new Phaser.Point(-50, 0)]]
     this.previewPiece = [new Phaser.Point(0, -50)]
     this.snatris.addLinks(this.previewPiece, true)
-    this.snatris.setBorder(30, 30, this.game.width-30, this.game.height-30)
+
+        this.drawBorder();
   }
   rotatePreview (angle) {
     var theta = Phaser.Math.degToRad(angle);
@@ -62,6 +60,15 @@ export default class extends Phaser.State {
       this.previewPiece[i].x = px;
       this.previewPiece[i].y = py;
     }
+  }
+
+  drawBorder() {
+    this.graphics.lineStyle(1, 0xFFFFFF, 0.3);
+    this.graphics.moveTo(this.border.x, this.border.y)
+    this.graphics.lineTo(this.border.w, this.border.y)
+    this.graphics.lineTo(this.border.w, this.border.h)
+    this.graphics.lineTo(this.border.x, this.border.h)
+    this.graphics.lineTo(this.border.x, this.border.y)
   }
 
   confirmPlacement() {
@@ -79,10 +86,15 @@ export default class extends Phaser.State {
   }
 
   update (){
-    if(!this.snatris.alive && !this.deathSound.isPlaying ){
+    if(!this.snatris.alive){
       this.ScoreText.alpha = 0;
-      this.deathSound.play()
+      this.state.start('GameOver', false, false, this.score)
     }
+
+    if(!this.snatris.isInside(this.border.x, this.border.y, this.border.w, this.border.h))
+      this.snatris.complete();
+
+    this.score = this.snatris.links.length;
 
     // Cursors
     if (this.cursors.left.isDown || this.leftKey.isDown)
@@ -104,6 +116,6 @@ export default class extends Phaser.State {
     }
 
     this.snatris.addLinks(this.previewPiece, true)
-    this.ScoreText.setText("Score: " + this.snatris.score);
+    this.ScoreText.setText("Score: " + this.score);
   }
 }
