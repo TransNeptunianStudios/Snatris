@@ -72,7 +72,7 @@ export default class extends Phaser.State {
             this.TouchDown = false;
         }
 
-        this.score = this.snatris.links.length;
+        this.score = this.snatris.links.length-1;
         this.ScoreText.setText("Score: " + this.score);
     }
 }
