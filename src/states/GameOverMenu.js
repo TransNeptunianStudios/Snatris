@@ -8,10 +8,10 @@ export default class extends Phaser.State {
     init(score) {
         this.finalScore = score
 
-        this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful.", "N00b"]
-        this.Mediocre = ["Not bad.", "Pretty cool.", "Kinda neat", "Mediocre"]
+        this.Bad = ["Meh", "Eh?", "Hah!", "Shameful", "N00b"]
+        this.Mediocre = ["Not bad", "Pretty cool", "Kinda neat", "Mediocre"]
         this.Good = ["Amazing!", "Fabulous!", "Awesome!!"]
-        this.Best = ["Whoa man!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"]
+        this.Best = ["Whoa dude!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"]
     }
     preload() {}
 
@@ -35,9 +35,9 @@ export default class extends Phaser.State {
     }
 
     getReaction(score) {
-        if (score > 50)
+        if (score > 55)
             return this.game.rnd.pick(this.Best)
-        else if (score > 30)
+        else if (score > 35)
             return this.game.rnd.pick(this.Good)
         else if (score > 15)
             return this.game.rnd.pick(this.Mediocre)

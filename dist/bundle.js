@@ -48,7 +48,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(/*! babel-polyfill */1);
-	module.exports = __webpack_require__(/*! C:\Users\robinre\Documents\Snatris\src\main.js */298);
+	module.exports = __webpack_require__(/*! /home/regen/Documents/Snatris/src/main.js */298);
 
 
 /***/ },
@@ -112509,18 +112509,18 @@
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	var centerGameObjects = exports.centerGameObjects = function centerGameObjects(objects) {
-	    objects.forEach(function (object) {
-	        object.anchor.setTo(0.5);
-	    });
+	  objects.forEach(function (object) {
+	    object.anchor.setTo(0.5);
+	  });
 	};
 	
 	var setResponsiveWidth = exports.setResponsiveWidth = function setResponsiveWidth(sprite, percent, parent) {
-	    var percentWidth = (sprite.texture.width - parent.width / (100 / percent)) * 100 / sprite.texture.width;
-	    sprite.width = parent.width / (100 / percent);
-	    sprite.height = sprite.texture.height - sprite.texture.height * percentWidth / 100;
+	  var percentWidth = (sprite.texture.width - parent.width / (100 / percent)) * 100 / sprite.texture.width;
+	  sprite.width = parent.width / (100 / percent);
+	  sprite.height = sprite.texture.height - sprite.texture.height * percentWidth / 100;
 	};
 
 /***/ },
@@ -112588,7 +112588,7 @@
 	                fill: "#FFFFFF"
 	            });
 	
-	            this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.5", {
+	            this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.6", {
 	                font: "10px Arial",
 	                fill: "#FFFFFF"
 	            });
@@ -112608,7 +112608,7 @@
 	        value: function startGame() {
 	            this.toBoard = this.game.add.tween(this.camera).to({
 	                y: 0
-	            }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	            }, 800, _phaser2.default.Easing.Quadratic.InOut, true, 200);
 	            this.toBoard.onComplete.addOnce(function () {
 	                this.state.start('Game', false, false);
 	                this.title.alpha = 0;
@@ -112668,10 +112668,10 @@
 	        value: function init(score) {
 	            this.finalScore = score;
 	
-	            this.Bad = ["Meh.", "Eh?", "Hah!", "Shameful.", "N00b"];
-	            this.Mediocre = ["Not bad.", "Pretty cool.", "Kinda neat", "Mediocre"];
+	            this.Bad = ["Meh", "Eh?", "Hah!", "Shameful", "N00b"];
+	            this.Mediocre = ["Not bad", "Pretty cool", "Kinda neat", "Mediocre"];
 	            this.Good = ["Amazing!", "Fabulous!", "Awesome!!"];
-	            this.Best = ["Whoa man!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
+	            this.Best = ["Whoa dude!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
 	        }
 	    }, {
 	        key: 'preload',
@@ -112701,7 +112701,7 @@
 	    }, {
 	        key: 'getReaction',
 	        value: function getReaction(score) {
-	            if (score > 50) return this.game.rnd.pick(this.Best);else if (score > 30) return this.game.rnd.pick(this.Good);else if (score > 15) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
+	            if (score > 55) return this.game.rnd.pick(this.Best);else if (score > 35) return this.game.rnd.pick(this.Good);else if (score > 15) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
 	        }
 	    }, {
 	        key: 'update',
@@ -112872,7 +112872,7 @@
 	                this.TouchDown = false;
 	            }
 	
-	            this.score = this.snatris.links.length;
+	            this.score = this.snatris.links.length - 1;
 	            this.ScoreText.setText("Score: " + this.score);
 	        }
 	    }]);
@@ -112892,7 +112892,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -112910,146 +112910,185 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _class = function (_Phaser$Group) {
-	    _inherits(_class, _Phaser$Group);
+	  _inherits(_class, _Phaser$Group);
 	
-	    function _class(game, startX, startY) {
-	        _classCallCheck(this, _class);
+	  function _class(game, startX, startY) {
+	    _classCallCheck(this, _class);
 	
-	        var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, game));
+	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, game));
 	
-	        _this.game = game;
-	        _this.graphics = game.add.graphics(0, 0);
-	        _this.alive = true;
+	    _this.game = game;
+	    _this.graphics = game.add.graphics(0, 0);
+	    _this.alive = true;
+	    _this.thickness = 1;
 	
-	        _this.links = [new _phaser2.default.Point(startX, startY)];
-	        _this.nextLinks = [];
+	    _this.links = [new _phaser2.default.Point(startX, startY)];
+	    _this.nextLinks = [];
 	
-	        // SOUNDS
-	        var masterVolume = 0.5;
-	        _this.confirmSounds = [game.add.audio('confirm1', masterVolume), game.add.audio('confirm2', masterVolume), game.add.audio('confirm3', masterVolume)];
-	        _this.deathSound = game.add.audio('death', masterVolume);
+	    // SOUNDS
+	    var masterVolume = 0.5;
+	    _this.confirmSounds = [game.add.audio('confirm1', masterVolume), game.add.audio('confirm2', masterVolume), game.add.audio('confirm3', masterVolume)];
+	    _this.deathSound = game.add.audio('death', masterVolume);
 	
-	        _this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(-25, -25), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(25, -25), new _phaser2.default.Point(-25, 0)]];
+	    _this.pieces = [[new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -100)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(50, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-50, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, -50)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(-25, 0)], [new _phaser2.default.Point(0, -50), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(0, -25), new _phaser2.default.Point(25, 0), new _phaser2.default.Point(0, 25)], [new _phaser2.default.Point(25, 0), new _phaser2.default.Point(-25, -25), new _phaser2.default.Point(25, 0)], [new _phaser2.default.Point(-25, 0), new _phaser2.default.Point(25, -25), new _phaser2.default.Point(-25, 0)]];
 	
-	        _this.previewPiece = _this.pieces[0];
-	        return _this;
+	    _this.previewPiece = _this.pieces[0];
+	    return _this;
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'addLinks',
+	    value: function addLinks(relativeLinks, preview) {
+	      this.nextLinks = [];
+	      for (var i = 0; i < relativeLinks.length; i++) {
+	        var head = this.nextLinks.length != 0 ? this.nextLinks[this.nextLinks.length - 1] : this.links[this.links.length - 1];
+	
+	        if (preview) this.nextLinks.push(new _phaser2.default.Point(head.x + relativeLinks[i].x, head.y + relativeLinks[i].y));else this.links.push(new _phaser2.default.Point(head.x + relativeLinks[i].x, head.y + relativeLinks[i].y));
+	      }
 	    }
 	
-	    _createClass(_class, [{
-	        key: 'addLinks',
-	        value: function addLinks(relativeLinks, preview) {
-	            this.nextLinks = [];
-	            for (var i = 0; i < relativeLinks.length; i++) {
-	                var head = this.nextLinks.length != 0 ? this.nextLinks[this.nextLinks.length - 1] : this.links[this.links.length - 1];
+	    // my god..
 	
-	                if (preview) this.nextLinks.push(new _phaser2.default.Point(head.x + relativeLinks[i].x, head.y + relativeLinks[i].y));else this.links.push(new _phaser2.default.Point(head.x + relativeLinks[i].x, head.y + relativeLinks[i].y));
-	            }
-	        }
-	    }, {
-	        key: 'confirmPlacement',
-	        value: function confirmPlacement() {
-	            this.addLinks(this.previewPiece);
-	            this.previewPiece = this.game.rnd.pick(this.pieces);
-	            this.addLinks(this.previewPiece, true);
-	            this.rotatePreview(this.game.rnd.integer() % 360);
+	  }, {
+	    key: 'flash',
+	    value: function flash(down) {
+	      var colorBlend = {
+	        step: 0
+	      };
+	      var colorTween = game.add.tween(colorBlend).to({
+	        step: 100
+	      }, 100, _phaser2.default.Easing.Linear.None, true);
 	
-	            var confirm = this.game.rnd.pick(this.confirmSounds);
-	            confirm.play();
-	        }
-	    }, {
-	        key: 'rotatePreview',
-	        value: function rotatePreview(angle) {
-	            for (var i = 0; i < this.previewPiece.length; i++) {
-	                this.previewPiece[i].rotate(0, 0, angle, true);
-	            }
-	        }
-	    }, {
-	        key: 'snakeify',
-	        value: function snakeify() {
-	            if (this.links.length < 2) // Dont run when snatris is a dot
-	                return;
+	      if (down) {
+	        colorTween.onUpdateCallback(function () {
+	          this.graphics.tint = _phaser2.default.Color.interpolateColor(0xffff00, 0xffffff, 100, colorBlend.step);
+	        }, this);
+	        game.add.tween(this).to({
+	          thickness: 1
+	        }, 200, _phaser2.default.Easing.Linear.None, true);
+	      } else {
+	        colorTween.onUpdateCallback(function () {
+	          this.graphics.tint = _phaser2.default.Color.interpolateColor(0xffffff, 0xffff00, 100, colorBlend.step);
+	        }, this);
+	        colorTween.onComplete.addOnce(function () {
+	          this.flash(true);
+	        }, this);
+	        game.add.tween(this).to({
+	          thickness: 5
+	        }, 200, _phaser2.default.Easing.Linear.None, true);
+	      }
+	    }
+	  }, {
+	    key: 'confirmPlacement',
+	    value: function confirmPlacement() {
+	      this.addLinks(this.previewPiece);
+	      this.previewPiece = this.game.rnd.pick(this.pieces);
+	      this.addLinks(this.previewPiece, true);
+	      this.rotatePreview(this.game.rnd.integer() % 360);
 	
-	            // Remove links not needed any more
-	            if (_phaser2.default.Point.distance(this.links[0], this.links[1], true) < 3) //Remove "dead" links
-	                this.links.shift();
+	      var confirm = this.game.rnd.pick(this.confirmSounds);
+	      confirm.play();
+	      this.flash();
+	    }
+	  }, {
+	    key: 'rotatePreview',
+	    value: function rotatePreview(angle) {
+	      for (var i = 0; i < this.previewPiece.length; i++) {
+	        this.previewPiece[i].rotate(0, 0, angle, true);
+	      }
+	    }
+	  }, {
+	    key: 'snakeify',
+	    value: function snakeify() {
+	      if (this.links.length < 2) // Dont run when the snatris is a dot
+	        return;
 	
-	            var tail = this.links[0];
-	            var head = this.links[this.links.length - 1];
+	      // Remove links not needed any more
+	      if (_phaser2.default.Point.distance(this.links[0], this.links[1], true) < 3) //Remove "dead" links
+	        this.links.shift();
 	
-	            var dirTail = new _phaser2.default.Point(tail.x - this.links[1].x, tail.y - this.links[1].y).normalize();
-	            tail.x -= dirTail.x;
-	            tail.y -= dirTail.y;
+	      var tail = this.links[0];
+	      var head = this.links[this.links.length - 1];
 	
-	            var dirHead = new _phaser2.default.Point(this.links[this.links.length - 2].x - head.x, this.links[this.links.length - 2].y - head.y).normalize().multiply(1.5, 1.5);
-	            head.x -= dirHead.x;
-	            head.y -= dirHead.y;
-	        }
-	    }, {
-	        key: 'checkCollision',
-	        value: function checkCollision() {
-	            for (var i = 0; i < this.links.length - 1; i++) {
-	                for (var j = 0; j < this.links.length - 1; j++) {
-	                    if (i == j) continue;
+	      var dirTail = new _phaser2.default.Point(tail.x - this.links[1].x, tail.y - this.links[1].y).normalize();
+	      tail.x -= dirTail.x;
+	      tail.y -= dirTail.y;
 	
-	                    var L1 = new _phaser2.default.Line(this.links[i].x, this.links[i].y, this.links[i + 1].x, this.links[i + 1].y);
-	                    var L2 = new _phaser2.default.Line(this.links[j].x, this.links[j].y, this.links[j + 1].x, this.links[j + 1].y);
-	                    var pointOfCollision = new _phaser2.default.Point(0, 0);
+	      // head moves 20 % faster than tail
+	      var dirHead = new _phaser2.default.Point(this.links[this.links.length - 2].x - head.x, this.links[this.links.length - 2].y - head.y).normalize().multiply(1.2, 1.2);
+	      head.x -= dirHead.x;
+	      head.y -= dirHead.y;
+	    }
+	  }, {
+	    key: 'checkCollision',
+	    value: function checkCollision() {
+	      for (var i = 0; i < this.links.length - 1; i++) {
+	        for (var j = 0; j < this.links.length - 1; j++) {
+	          if (i == j) continue;
 	
-	                    if (L1.intersects(L2, true, pointOfCollision) && _phaser2.default.Point.distance(pointOfCollision, this.links[i], true) >= 3 && _phaser2.default.Point.distance(pointOfCollision, this.links[i + 1], true) >= 3) {
-	                        return true;
-	                    }
-	                }
-	            }
-	            return false;
-	        }
-	    }, {
-	        key: 'isInside',
-	        value: function isInside(x, y, w, h) {
-	            for (var i = 0; i < this.links.length; i++) {
-	                if (this.links[i].x < x || this.links[i].x > w || this.links[i].y < y || this.links[i].y > h) return false;
-	            }
+	          var L1 = new _phaser2.default.Line(this.links[i].x, this.links[i].y, this.links[i + 1].x, this.links[i + 1].y);
+	          var L2 = new _phaser2.default.Line(this.links[j].x, this.links[j].y, this.links[j + 1].x, this.links[j + 1].y);
+	          var pointOfCollision = new _phaser2.default.Point(0, 0);
+	
+	          // this is fabolus
+	          if (L1.intersects(L2, true, pointOfCollision) && _phaser2.default.Point.distance(pointOfCollision, this.links[i], true) >= 3 && _phaser2.default.Point.distance(pointOfCollision, this.links[i + 1], true) >= 3) {
 	            return true;
+	          }
 	        }
-	    }, {
-	        key: 'complete',
-	        value: function complete() {
-	            this.alive = false;
-	            this.deathSound.play();
-	            this.reDraw(false);
+	      }
+	      return false;
+	    }
+	
+	    //
+	
+	  }, {
+	    key: 'isInside',
+	    value: function isInside(x, y, w, h) {
+	      for (var i = 0; i < this.links.length; i++) {
+	        if (this.links[i].x < x || this.links[i].x > w || this.links[i].y < y || this.links[i].y > h) return false;
+	      }
+	      return true;
+	    }
+	  }, {
+	    key: 'complete',
+	    value: function complete() {
+	      this.alive = false;
+	      this.deathSound.play();
+	      this.reDraw(false);
+	    }
+	  }, {
+	    key: 'reDraw',
+	    value: function reDraw(withPreview) {
+	      // main body
+	      this.graphics.clear();
+	      this.graphics.moveTo(this.links[0].x, this.links[0].y);
+	      for (var i = 1; i < this.links.length; i++) {
+	        this.graphics.lineStyle(this.thickness, 0xFFFFFF);
+	        this.graphics.lineTo(this.links[i].x, this.links[i].y);
+	      }
+	
+	      // preview
+	      if (withPreview) {
+	        for (var i = 0; i < this.nextLinks.length; i++) {
+	          this.graphics.lineStyle(2, 0x3B9243);
+	          this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
 	        }
-	    }, {
-	        key: 'reDraw',
-	        value: function reDraw(withPreview) {
-	            // main body
-	            this.graphics.clear();
-	            this.graphics.moveTo(this.links[0].x, this.links[0].y);
-	            for (var i = 1; i < this.links.length; i++) {
-	                this.graphics.lineStyle(1, 0xFFFFFF);
-	                this.graphics.lineTo(this.links[i].x, this.links[i].y);
-	            }
+	      }
+	    }
+	  }, {
+	    key: 'update',
+	    value: function update() {
+	      if (!this.alive) return;
 	
-	            // preview
-	            if (withPreview) {
-	                for (var i = 0; i < this.nextLinks.length; i++) {
-	                    this.graphics.lineStyle(2, 0x3B9243);
-	                    this.graphics.lineTo(this.nextLinks[i].x, this.nextLinks[i].y);
-	                }
-	            }
-	        }
-	    }, {
-	        key: 'update',
-	        value: function update() {
-	            if (!this.alive) return;
+	      this.addLinks(this.previewPiece, true);
+	      this.snakeify();
+	      this.reDraw(true);
 	
-	            this.addLinks(this.previewPiece, true);
-	            this.snakeify();
-	            this.reDraw(true);
+	      if (this.checkCollision()) this.complete();
+	    }
+	  }]);
 	
-	            if (this.checkCollision()) this.complete();
-	        }
-	    }]);
-	
-	    return _class;
+	  return _class;
 	}(_phaser2.default.Group);
 	
 	exports.default = _class;

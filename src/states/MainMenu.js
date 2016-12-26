@@ -26,7 +26,7 @@ export default class extends Phaser.State {
             fill: "#FFFFFF"
         });
 
-        this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.5", {
+        this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.6", {
             font: "10px Arial",
             fill: "#FFFFFF"
         });
@@ -44,7 +44,7 @@ export default class extends Phaser.State {
     startGame() {
         this.toBoard = this.game.add.tween(this.camera).to({
             y: 0
-        }, 400, Phaser.Easing.Quadratic.InOut, true, 200);
+        }, 800, Phaser.Easing.Quadratic.InOut, true, 200);
         this.toBoard.onComplete.addOnce(function() {
             this.state.start('Game', false, false)
             this.title.alpha = 0;
