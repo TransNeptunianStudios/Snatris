@@ -112588,7 +112588,7 @@
 	        fill: "#FFFFFF"
 	      });
 	
-	      this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 1.0", {
+	      this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 1.0.1", {
 	        font: "10px Arial",
 	        fill: "#FFFFFF"
 	      });
@@ -113044,7 +113044,7 @@
 	          var pointOfCollision = new _phaser2.default.Point(0, 0);
 	
 	          // this is fabolus
-	          if (L1.intersects(L2, true, pointOfCollision) && _phaser2.default.Point.distance(pointOfCollision, this.links[i], true) >= 3 && _phaser2.default.Point.distance(pointOfCollision, this.links[i + 1], true) >= 3) {
+	          if (L1.intersects(L2, true, pointOfCollision) && _phaser2.default.Point.distance(pointOfCollision, this.links[i], true) >= 4 && _phaser2.default.Point.distance(pointOfCollision, this.links[i + 1], true) >= 3) {
 	            return true;
 	          }
 	        }

@@ -29,7 +29,7 @@ export default class extends Phaser.State {
       fill: "#FFFFFF"
     });
 
-    this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 1.0", {
+    this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 1.0.1", {
       font: "10px Arial",
       fill: "#FFFFFF"
     });

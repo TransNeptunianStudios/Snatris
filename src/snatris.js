@@ -126,7 +126,7 @@ export default class extends Phaser.Group {
 
         // this is fabolus
         if (L1.intersects(L2, true, pointOfCollision) &&
-          Phaser.Point.distance(pointOfCollision, this.links[i], true) >= 3 &&
+          Phaser.Point.distance(pointOfCollision, this.links[i], true) >= 4 &&
           Phaser.Point.distance(pointOfCollision, this.links[i + 1], true) >= 3) {
           return true;
         }
