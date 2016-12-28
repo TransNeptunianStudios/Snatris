@@ -112484,8 +112484,7 @@
 	            fadeTween.yoyo(true, 2000);
 	            fadeTween.onComplete.addOnce(this.showMainMenu, this);
 	
-	            this.game.input.onDown.addOnce(this.showMainMenu, this);
-	            this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.showMainMenu, this);
+	            this.game.input.keyboard.addKey(_phaser2.default.Keyboard.D).onDown.addOnce(this.showMainMenu, this);
 	        }
 	    }, {
 	        key: 'showMainMenu',
@@ -112533,7 +112532,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -112554,72 +112553,84 @@
 	
 	
 	var _class = function (_Phaser$State) {
-	    _inherits(_class, _Phaser$State);
+	  _inherits(_class, _Phaser$State);
 	
-	    function _class() {
-	        _classCallCheck(this, _class);
+	  function _class() {
+	    _classCallCheck(this, _class);
 	
-	        return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'init',
+	    value: function init() {}
+	  }, {
+	    key: 'preload',
+	    value: function preload() {}
+	  }, {
+	    key: 'create',
+	    value: function create() {
+	      this.game.camera.setPosition(0, this.game.height);
+	      this.game.add.sprite(0, 0, 'background');
+	
+	      this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 0.7, 'title');
+	
+	      this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.965, "Press to start", {
+	        font: "20px Arial",
+	        fill: "#FFFFFF"
+	      });
+	
+	      this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher with art from Mikael Larsson & Johannes Carlsson", {
+	        font: "10px Arial",
+	        fill: "#FFFFFF"
+	      });
+	
+	      this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.7", {
+	        font: "10px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      this.versionText.anchor.set(1, 0);
+	      this.authorText.anchor.set(0, 0);
+	      this.startText.anchor.set(0.5);
+	      this.title.anchor.set(0.5);
+	
+	      this.setMenuAlpha(0);
+	
+	      var titleFade = this.game.add.tween(this.title).to({
+	        alpha: 1
+	      }, 800, _phaser2.default.Easing.Linear.None, true, 200);
+	      titleFade.onComplete.addOnce(function () {
+	        this.setMenuAlpha(1);
+	      }, this);
+	
+	      this.game.input.onDown.addOnce(this.startGame, this);
+	      this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.startGame, this);
 	    }
+	  }, {
+	    key: 'setMenuAlpha',
+	    value: function setMenuAlpha(alpha) {
+	      this.startText.alpha = alpha;
+	      this.versionText.alpha = alpha;
+	      this.authorText.alpha = alpha;
+	      this.title.alpha = alpha;
+	    }
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }, {
+	    key: 'startGame',
+	    value: function startGame() {
+	      this.toBoard = this.game.add.tween(this.camera).to({
+	        y: 0
+	      }, 800, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	      this.toBoard.onComplete.addOnce(function () {
+	        this.state.start('Game', false, false);
+	        this.setMenuAlpha(0);
+	      }, this);
+	    }
+	  }]);
 	
-	    _createClass(_class, [{
-	        key: 'init',
-	        value: function init() {}
-	    }, {
-	        key: 'preload',
-	        value: function preload() {}
-	    }, {
-	        key: 'create',
-	        value: function create() {
-	            console.log("MainMenu create");
-	            this.game.camera.setPosition(0, 540);
-	            this.game.add.sprite(0, 0, 'background');
-	
-	            this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 0.7, 'title');
-	
-	            this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.965, "Press to start", {
-	                font: "20px Arial",
-	                fill: "#FFFFFF",
-	                alpha: 0
-	            });
-	
-	            this.authorText = this.game.add.text(5, this.game.world.height - 15, "by Robin Reicher with art from Mikael Larsson & Johannes Carlsson", {
-	                font: "10px Arial",
-	                fill: "#FFFFFF"
-	            });
-	
-	            this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.6", {
-	                font: "10px Arial",
-	                fill: "#FFFFFF"
-	            });
-	            this.versionText.anchor.set(1, 0);
-	            this.authorText.anchor.set(0, 0);
-	            this.startText.anchor.set(0.5);
-	            this.title.anchor.set(0.5);
-	
-	            this.game.input.onDown.addOnce(this.startGame, this);
-	            this.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(this.startGame, this);
-	        }
-	    }, {
-	        key: 'update',
-	        value: function update() {}
-	    }, {
-	        key: 'startGame',
-	        value: function startGame() {
-	            this.toBoard = this.game.add.tween(this.camera).to({
-	                y: 0
-	            }, 800, _phaser2.default.Easing.Quadratic.InOut, true, 200);
-	            this.toBoard.onComplete.addOnce(function () {
-	                this.state.start('Game', false, false);
-	                this.title.alpha = 0;
-	                this.startText.alpha = 0;
-	                this.versionText.alpha = 0;
-	                this.authorText.alpha = 0;
-	            }, this);
-	        }
-	    }]);
-	
-	    return _class;
+	  return _class;
 	}(_phaser2.default.State);
 	
 	exports.default = _class;
@@ -112634,7 +112645,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -112655,111 +112666,110 @@
 	
 	
 	var _class = function (_Phaser$State) {
-	    _inherits(_class, _Phaser$State);
+	  _inherits(_class, _Phaser$State);
 	
-	    function _class() {
-	        _classCallCheck(this, _class);
+	  function _class() {
+	    _classCallCheck(this, _class);
 	
-	        return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'init',
+	    value: function init(score) {
+	      this.finalScore = score;
+	
+	      this.Bad = ["Meh", "Eh?", "Hah!", "Shameful", "N00b"];
+	      this.Mediocre = ["Not bad", "Pretty cool", "Kinda neat", "Mediocre"];
+	      this.Good = ["Amazing!", "Fabulous!", "Awesome!!"];
+	      this.Best = ["Whoa dude!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
 	    }
+	  }, {
+	    key: 'preload',
+	    value: function preload() {}
+	  }, {
+	    key: 'create',
+	    value: function create() {
+	      var _this2 = this;
 	
-	    _createClass(_class, [{
-	        key: 'init',
-	        value: function init(score) {
-	            this.finalScore = score;
+	      var sorryText = this.game.add.text(this.game.world.centerX, this.game.world.height / 2 + 3, "Snatris Constellation Complete", {
+	        font: "20px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      sorryText.alpha = 0;
+	      sorryText.anchor.set(0.5, 1);
 	
-	            this.Bad = ["Meh", "Eh?", "Hah!", "Shameful", "N00b"];
-	            this.Mediocre = ["Not bad", "Pretty cool", "Kinda neat", "Mediocre"];
-	            this.Good = ["Amazing!", "Fabulous!", "Awesome!!"];
-	            this.Best = ["Whoa dude!!", "Damn Son!!", "Sweet baby Jebus!", "My god, it's full of stars"];
-	        }
-	    }, {
-	        key: 'preload',
-	        value: function preload() {}
-	    }, {
-	        key: 'create',
-	        value: function create() {
-	            var _this2 = this;
+	      this.firstTween = game.add.tween(sorryText).to({
+	        alpha: 1
+	      }, 1000, _phaser2.default.Easing.Linear.None, true);
+	      this.firstTween.onComplete.addOnce(function () {
+	        _this2.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this2.showScore, _this2);
+	        _this2.game.input.onDown.addOnce(_this2.showScore, _this2);
+	      }, this);
+	    }
+	  }, {
+	    key: 'getReaction',
+	    value: function getReaction(score) {
+	      if (score > 55) return this.game.rnd.pick(this.Best);else if (score > 35) return this.game.rnd.pick(this.Good);else if (score > 20) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
+	    }
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }, {
+	    key: 'showScore',
+	    value: function showScore() {
+	      var _this3 = this;
 	
-	            console.log("GameOverMenu create");
+	      var toScoreTween = this.game.add.tween(this.camera).to({
+	        y: this.game.height
+	      }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
 	
-	            var sorryText = this.game.add.text(this.game.world.centerX, this.game.world.height / 2 + 3, "Snatris Constellation Complete", {
-	                font: "20px Arial",
-	                fill: "#FFFFFF"
-	            });
-	            sorryText.alpha = 0;
-	            sorryText.anchor.set(0.5, 1);
+	      var Score = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.65, "Final Score: " + this.finalScore, {
+	        font: "50px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      Score.anchor.set(0.5);
 	
-	            this.firstTween = game.add.tween(sorryText).to({
-	                alpha: 1
-	            }, 1000, _phaser2.default.Easing.Linear.None, true);
-	            this.firstTween.onComplete.addOnce(function () {
-	                _this2.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this2.showScore, _this2);
-	                _this2.game.input.onDown.addOnce(_this2.showScore, _this2);
-	            }, this);
-	        }
-	    }, {
-	        key: 'getReaction',
-	        value: function getReaction(score) {
-	            if (score > 55) return this.game.rnd.pick(this.Best);else if (score > 35) return this.game.rnd.pick(this.Good);else if (score > 15) return this.game.rnd.pick(this.Mediocre);else return this.game.rnd.pick(this.Bad);
-	        }
-	    }, {
-	        key: 'update',
-	        value: function update() {}
-	    }, {
-	        key: 'showScore',
-	        value: function showScore() {
-	            var _this3 = this;
+	      var reaction = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.7, this.getReaction(this.finalScore), {
+	        font: "35px Arial",
+	        fill: "#FFFFFF",
+	        fontStyle: "Italic"
+	      });
+	      reaction.anchor.set(0.5);
 	
-	            var toScoreTween = this.game.add.tween(this.camera).to({
-	                y: 540
-	            }, 400, _phaser2.default.Easing.Quadratic.InOut, true, 200);
+	      var bestScore = localStorage.getItem('SnatrisBest');
+	      bestScore = !bestScore ? 0 : bestScore;
+	      var OldScore = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.97, "Old personal best: " + bestScore, {
+	        font: "20px Arial",
+	        fill: "#FFFFFF"
+	      });
+	      OldScore.anchor.set(0.5);
 	
-	            var reaction = this.game.add.text(this.game.world.centerX, 650, this.getReaction(this.finalScore), {
-	                font: "40px Arial",
-	                fill: "#FFFFFF"
-	            });
-	            reaction.anchor.set(0.5);
+	      if (this.finalScore > bestScore) {
+	        localStorage.setItem('SnatrisBest', this.finalScore);
+	        var highscoreText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.88, "New personal best!", {
+	          font: "20px Arial",
+	          fill: "#FFFFFF"
+	        });
+	        highscoreText.anchor.set(0.5);
+	      }
 	
-	            var Score = this.game.add.text(this.game.world.centerX, 700, "Score: " + this.finalScore, {
-	                font: "40px Arial",
-	                fill: "#FFFFFF"
-	            });
-	            Score.anchor.set(0.5);
+	      toScoreTween.onComplete.addOnce(function () {
+	        _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
+	        _this3.game.input.onDown.addOnce(_this3.toMainMenu, _this3);
+	      }, this);
+	    }
+	  }, {
+	    key: 'toMainMenu',
+	    value: function toMainMenu() {
+	      this.state.start('MainMenu');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {}
+	  }]);
 	
-	            var bestScore = localStorage.getItem('SnatrisBest');
-	            bestScore = !bestScore ? 0 : bestScore;
-	            var OldScore = this.game.add.text(this.game.world.centerX, 900, "Old personal best: " + bestScore, {
-	                font: "20px Arial",
-	                fill: "#FFFFFF"
-	            });
-	            OldScore.anchor.set(0.5);
-	
-	            if (this.finalScore > bestScore) {
-	                localStorage.setItem('SnatrisBest', this.finalScore);
-	                var highscoreText = this.game.add.text(this.game.world.centerX, 870, "New personal best!", {
-	                    font: "20px Arial",
-	                    fill: "#FFFFFF"
-	                });
-	                highscoreText.anchor.set(0.5);
-	            }
-	
-	            toScoreTween.onComplete.addOnce(function () {
-	                _this3.game.input.keyboard.addKey(_phaser2.default.Keyboard.SPACEBAR).onDown.addOnce(_this3.toMainMenu, _this3);
-	                _this3.game.input.onDown.addOnce(_this3.toMainMenu, _this3);
-	            }, this);
-	        }
-	    }, {
-	        key: 'toMainMenu',
-	        value: function toMainMenu() {
-	            this.state.start('MainMenu');
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {}
-	    }]);
-	
-	    return _class;
+	  return _class;
 	}(_phaser2.default.State);
 	
 	exports.default = _class;

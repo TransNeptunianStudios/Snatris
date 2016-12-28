@@ -19,8 +19,7 @@ export default class extends Phaser.State {
         fadeTween.yoyo(true, 2000);
         fadeTween.onComplete.addOnce(this.showMainMenu, this);
 
-        this.game.input.onDown.addOnce(this.showMainMenu, this);
-        this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.addOnce(this.showMainMenu, this);
+        this.game.input.keyboard.addKey(Phaser.Keyboard.D).onDown.addOnce(this.showMainMenu, this);
     }
 
     showMainMenu() {
