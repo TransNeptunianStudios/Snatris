@@ -18,7 +18,7 @@ export default class extends Phaser.State {
             h: this.game.height - 30
         }
 
-        this.snatris = new Snatris(this.game, this.game.world.centerX, 500)
+        this.snatris = new Snatris(this.game, this.game.world.centerX, this.game.height * 0.9)
         this.game.add.existing(this.snatris)
 
         // Keyboard+Mouse input

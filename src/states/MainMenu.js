@@ -13,7 +13,11 @@ export default class extends Phaser.State {
     this.game.camera.setPosition(0, this.game.height);
     this.game.add.sprite(0, 0, 'background');
 
+    console.log(this.game.width)
+
     this.title = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 0.7, 'title');
+    if(this.game.width < this.title.width)
+      this.title.scale.setTo(0.5);
 
     this.startText = this.game.add.text(this.game.world.centerX, this.game.world.height * 0.965, "Press to start", {
       font: "20px Arial",
@@ -25,7 +29,7 @@ export default class extends Phaser.State {
       fill: "#FFFFFF"
     });
 
-    this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 0.7", {
+    this.versionText = this.game.add.text(this.game.world.width - 10, this.game.world.height - 15, "Version. 1.0", {
       font: "10px Arial",
       fill: "#FFFFFF"
     });
